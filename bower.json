@@ -1,7 +1,7 @@
 {
   "name": "vsdropdown",
   "description": "Virtual scroll dropdown - AngularJS reusable UI component",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "homepage": "http://kekeh.github.io/vsdropdown",
   "license": "MIT",
   "authors": [
@@ -17,10 +17,8 @@
   ],
   "keywords": [
     "AngularJS",
-    "vsdatatable",
-    "datatable",
-    "grid",
-    "table"
+    "vsdropdown",
+    "dropdown"
   ],
   "ignore": [
     "**/.*",
