@@ -1,0 +1,16 @@
+<table class="vsscrollbarcontainer" ng-show="filteredItems.length > 0"
+       style="border-collapse:separate; border-spacing:0; padding:0; height:100%;">
+    <tr>
+        <td style="width:100%; padding:0; vertical-align: top;">
+            <div class="vsscrollbarcontent" ng-style="{'margin': scrollbarVisible ? '1px 0 1px 1px' : '1px'}"
+                 style="overflow-y:hidden; padding:0; outline:0;" ng-transclude></div>
+        </td>
+        <td style="padding:0; height:100%;">
+            <div class="vsscrollbar" ng-show="scrollbarVisible"
+                 style="float: right; height:100%; padding:0; margin:1px;">
+                <div class="vsscrollbox" tabindex="0" ng-style="{'height': boxHeight + 'px'}"
+                     ng-click="$event.stopPropagation();" style="position:relative; padding:0; outline:0;"></div>
+            </div>
+        </td>
+    </tr>
+</table> 

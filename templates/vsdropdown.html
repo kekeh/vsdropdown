@@ -1,0 +1,106 @@
+<div class="vsdropdown" ng-click="$event.stopPropagation();"
+     ng-style="{'border-radius':showSelector?'2px 2px 0 0':'2px'}">
+    <div class="vsselectiongroup">
+
+        <div ng-if="options.selection.maximum > 1" ng-include="'vsoverlay.html'"></div>  
+        
+        <span class="vsselection" ng-style="{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}"
+              ng-click="selector()">
+            <div class="vsselecteditem vsselecteditemcolor" ng-show="$index === 0" ng-click="$event.stopPropagation()"
+                 ng-repeat="item in selectedItems track by $index">
+                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=1"></div>
+            </div>
+        </span>
+        
+        <span class="vsselbtngroup">
+            <button class="vsbtnselections" ng-if="selectedItems.length > 1" ng-click="openOverlay()">
+                <span class="icon vsiconselections icon-selections"></span>
+            </button>
+            <button class="vsbtnselector" ng-click="selector()">
+                <span class="icon vsiconselector" ng-class="showSelector ? 'icon-up' : 'icon-down'"></span>
+            </button>
+            <span class="vsselectioncounttxt" ng-if="options.selection.showCount && selectedItems.length > 1"
+                  ng-click="openOverlay()">{{selectedItems.length}}</span>
+        </span>
+    </div>
+
+    <div class="vsselector" ng-show="showSelector">
+        <table style="width: 100%" class="vsfiltergroup"
+               ng-class="{'vsnohitsfilter': filteredItemCount === 0, 'vshitsfilter': filteredItemCount > 0}">
+            <tr>
+                <td>
+                    <input class="vsfilterinput" type="text"
+                           ng-model="filterText"
+                           ng-model-options="{debounce: config.FILTERING_BEGIN_DELAY}"
+                           data-ng-trim="false"
+                           placeholder="{{options.filter.filterPlaceholderTxt}}"
+                           item-selected-fn="itemClicked(index)"
+                           filter-focus/>
+                </td>
+                <td class="vsfiltermatch">
+                    <div class="vsfiltermatchtext">{{filteredItemCount > 0 ? filteredItemCount :
+                        options.filter.noHitsTxt}}
+                    </div>
+                </td>
+                <td class="vsiconfilterclear" ng-show="filterText.length > 0">
+                    <button class="vsbtnfilterclear" ng-click="filterText='';filterFocusEvent()">
+                        <span class="icon vsiconclear icon-clear"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <div vsscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}"
+             height="{{options.visibleItemCount*config.ITEM_HEIGHT-2}}"
+             on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)">
+            <div class="vsitem"
+                 ng-repeat="item in visibleItems track by $index"
+                 ng-click="itemClicked($index)"
+                 ng-class="{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}">
+                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=2"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="vsitemcontent.html">
+        <table class="vsitemcontent">
+            <tr>
+                <td class="vsitemtext" tooltip-window="{{visiblePropName === null ? item : item[visiblePropName]}}">
+                    {{visiblePropName === null ? item : item[visiblePropName]}}
+                </td>
+                <td ng-if="id === 1" style="width:24px;">
+                    <button class="vsbtncross" ng-click="removeItem($index);$event.stopPropagation()">
+                        <span class="icon vsiconcross icon-cross"></span>
+                    </button>
+                </td>
+                <td class="vsiconcheck" ng-if="id === 2" ng-show="isItemSelected(item)" style="width:24px;">
+                    <span class="icon icon-check"></span>
+                </td>
+            </tr>
+        </table>
+    </script>
+
+    <script type="text/ng-template" id="vsoverlay.html">
+        <div class="vsoverlay" opacity ng-style="{'opacity': opacity}" ng-if="showOverlay && selectedItems.length > 1"
+             ng-mouseleave="closeOverlay()">
+            <div class="vsoverlaytitle">
+                <span class="vsoverlaytitletext">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>
+                <button class="vsbtnsmallcross" ng-click="closeOverlay()">
+                    <span style="" class="icon vsiconsmallcross icon-cross"></span>
+                </button>
+            </div>
+            <div class="vsselecteditem vsselecteditemcolor" ng-click="$event.stopPropagation()"
+                 ng-repeat="item in selectedItems track by $index">
+                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=1"></div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="vstooltip.html">
+        <div class="vstooltip" opacity ng-style="{'opacity': opacity}">
+            <button class="vsbtnsmallcross" style="float:right" ng-click="closeTooltip($event)"><span
+                    class="icon vsiconsmallcross icon-cross"></span></button>
+            txt
+        </div>
+    </script>
+</div>
