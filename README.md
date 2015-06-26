@@ -6,26 +6,31 @@
 AngularJS directive which implements the virtual scroll dropdown.
 
 ### 1. virtualization
-* only visible items are rendered in the browser.
+* only visible items are rendered in the browser
+* good performance even millions of items
 
-### 2. filtering
+### 2. custom scrollbar
+* scrollbar can be customized by CSS
+* looks similar in all browsers
+
+### 3. filtering
 * built in global filter
 * uses AngularJS filter
 
-### 3. responsive UI
+### 4. responsive UI
 * vsdropdown UI is responsive and scalable to different size of devices
 
-### 4. tooltips
+### 5. tooltips
 * tooltips are used to shown the string which are not fit to the vsdropdown
 
-### 5. touch and keyboard
+### 6. touch and keyboard
 * works with touch devices
 * works with keyboard
 
-### 6. accepts objects
+### 7. accepts objects
 * input object is array of objects (items) or array of strings
 
-### 7. no dependencies
+### 8. no dependencies
 * Depends only AngularJS
 
 ## Usage
