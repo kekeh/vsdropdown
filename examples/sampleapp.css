@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    margin: 20px 100px 20px 100px;
+    margin: 20px 350px 20px 350px;
     min-width: 180px;
 }
 
@@ -18,11 +18,28 @@ p {
     font-size: 14px;
 }
 
-/*
 @media screen and (max-width: 1100px) {
-    #pagemargin
+    body
     {
+        margin: 20px 300px 20px 300px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    body {
+        margin: 20px 200px 20px 200px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    body {
+        margin: 20px 100px 20px 100px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    body {
         margin: 20px 10px 20px 10px;
     }
 }
-*/
+
