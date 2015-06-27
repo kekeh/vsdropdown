@@ -5,20 +5,23 @@
  *  Author: kekeh
  *  Homepage: http://kekeh.github.io/vsdropdown
  *  License: MIT
- *  Date: 2015-06-26
+ *  Date: 2015-06-27
  */
 angular.module('template-vsdropdown-0.0.1.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
 
 angular.module("templates/vsdropdown.html", []).run(["$templateCache", function ($templateCache) {
     $templateCache.put("templates/vsdropdown.html",
-        "<div class=\"vsdropdown\" ng-click=\"$event.stopPropagation();\" ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\">   \n" +
+        "<div class=\"vsdropdown\" ng-click=\"$event.stopPropagation();\"\n" +
+        "     ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\">\n" +
         "    <div class=\"vsselectiongroup\">\n" +
-        "        \n" +
+        "\n" +
         "        <div ng-if=\"options.selection.maximum > 1\" ng-include=\"'vsoverlay.html'\"></div>  \n" +
         "        \n" +
-        "        <span class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\" ng-click=\"selector()\">      \n" +
-        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index === 0\" ng-click=\"$event.stopPropagation()\" ng-repeat=\"item in selectedItems track by $index\">    \n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=1\"></div> \n" +
+        "        <span class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\"\n" +
+        "              ng-click=\"selector()\">\n" +
+        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index === 0\" ng-click=\"$event.stopPropagation()\"\n" +
+        "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
+        "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
         "            </div>\n" +
         "        </span>\n" +
         "        \n" +
@@ -27,27 +30,30 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                <span class=\"icon vsiconselections icon-selections\"></span>\n" +
         "            </button>\n" +
         "            <button class=\"vsbtnselector\" ng-click=\"selector()\">\n" +
-        "                <span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span> \n" +
+        "                <span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span>\n" +
         "            </button>\n" +
-        "            <span class=\"vsselectioncounttxt\" ng-if=\"options.selection.showCount && selectedItems.length > 1\" ng-click=\"openOverlay()\">{{selectedItems.length}}</span>\n" +
-        "        </span> \n" +
+        "            <span class=\"vsselectioncounttxt\" ng-if=\"options.selection.showCount && selectedItems.length > 1\"\n" +
+        "                  ng-click=\"openOverlay()\">{{selectedItems.length}}</span>\n" +
+        "        </span>\n" +
         "    </div>\n" +
-        "    \n" +
+        "\n" +
         "    <div class=\"vsselector\" ng-show=\"showSelector\">\n" +
-        "        <table style=\"width: 100%\" class=\"vsfiltergroup\" \n" +
+        "        <table style=\"width: 100%\" class=\"vsfiltergroup\"\n" +
         "               ng-class=\"{'vsnohitsfilter': filteredItemCount === 0, 'vshitsfilter': filteredItemCount > 0}\">\n" +
         "            <tr>\n" +
         "                <td>\n" +
-        "                    <input class=\"vsfilterinput\"  type=\"text\" \n" +
-        "                           ng-model=\"filterText\" \n" +
-        "                           ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\" \n" +
-        "                           data-ng-trim=\"false\" \n" +
+        "                    <input class=\"vsfilterinput\" type=\"text\"\n" +
+        "                           ng-model=\"filterText\"\n" +
+        "                           ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\"\n" +
+        "                           data-ng-trim=\"false\"\n" +
         "                           placeholder=\"{{options.filter.filterPlaceholderTxt}}\"\n" +
         "                           item-selected-fn=\"itemClicked(index)\"\n" +
         "                           filter-focus/>\n" +
         "                </td>\n" +
         "                <td class=\"vsfiltermatch\">\n" +
-        "                    <div class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</div>\n" +
+        "                    <div class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount :\n" +
+        "                        options.filter.noHitsTxt}}\n" +
+        "                    </div>\n" +
         "                </td>\n" +
         "                <td class=\"vsiconfilterclear\" ng-show=\"filterText.length > 0\">\n" +
         "                    <button class=\"vsbtnfilterclear\" ng-click=\"filterText='';filterFocusEvent()\">\n" +
@@ -56,24 +62,25 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                </td>\n" +
         "            </tr>\n" +
         "        </table>\n" +
-        "        \n" +
-        "        <div vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\" height=\"{{options.visibleItemCount*config.ITEM_HEIGHT-2}}\"\n" +
-        "                     on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\">\n" +
-        "            <div class=\"vsitem\" \n" +
-        "                 ng-repeat=\"item in visibleItems track by $index\" \n" +
+        "\n" +
+        "        <div vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\"\n" +
+        "             height=\"{{options.visibleItemCount*config.ITEM_HEIGHT-2}}\"\n" +
+        "             on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\">\n" +
+        "            <div class=\"vsitem\"\n" +
+        "                 ng-repeat=\"item in visibleItems track by $index\"\n" +
         "                 ng-click=\"itemClicked($index)\"\n" +
         "                 ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\">\n" +
         "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=2\"></div>\n" +
-        "            </div>   \n" +
+        "            </div>\n" +
         "        </div>\n" +
         "    </div>\n" +
-        "   \n" +
+        "\n" +
         "    <script type=\"text/ng-template\" id=\"vsitemcontent.html\">\n" +
         "        <table class=\"vsitemcontent\">\n" +
         "            <tr>\n" +
         "                <td class=\"vsitemtext\" tooltip-window=\"{{visiblePropName === null ? item : item[visiblePropName]}}\">\n" +
         "                    {{visiblePropName === null ? item : item[visiblePropName]}}\n" +
-        "                </td>  \n" +
+        "                </td>\n" +
         "                <td ng-if=\"id === 1\" style=\"width:24px;\">\n" +
         "                    <button class=\"vsbtncross\" ng-click=\"removeItem($index);$event.stopPropagation()\">\n" +
         "                        <span class=\"icon vsiconcross icon-cross\"></span>\n" +
@@ -83,42 +90,49 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                    <span class=\"icon icon-check\"></span>\n" +
         "                </td>\n" +
         "            </tr>\n" +
-        "        </table> \n" +
+        "        </table>\n" +
         "    </script>\n" +
         "\n" +
         "    <script type=\"text/ng-template\" id=\"vsoverlay.html\">\n" +
-        "        <div class=\"vsoverlay\" opacity ng-style=\"{'opacity': opacity}\" ng-if=\"showOverlay && selectedItems.length > 1\" ng-mouseleave=\"closeOverlay()\">\n" +
+        "        <div class=\"vsoverlay\" opacity ng-style=\"{'opacity': opacity}\" ng-if=\"showOverlay && selectedItems.length > 1\"\n" +
+        "             ng-mouseleave=\"closeOverlay()\">\n" +
         "            <div class=\"vsoverlaytitle\">\n" +
         "                <span class=\"vsoverlaytitletext\">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>\n" +
         "                <button class=\"vsbtnsmallcross\" ng-click=\"closeOverlay()\">\n" +
         "                    <span style=\"\" class=\"icon vsiconsmallcross icon-cross\"></span>\n" +
-        "                </button>  \n" +
+        "                </button>\n" +
         "            </div>\n" +
-        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\" ng-repeat=\"item in selectedItems track by $index\">\n" +
+        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\"\n" +
+        "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
         "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
-        "            </div>         \n" +
-        "        </div>  \n" +
+        "            </div>\n" +
+        "        </div>\n" +
         "    </script>\n" +
-        "    \n" +
+        "\n" +
         "    <script type=\"text/ng-template\" id=\"vstooltip.html\">\n" +
         "        <div class=\"vstooltip\" opacity ng-style=\"{'opacity': opacity}\">\n" +
-        "            <button class=\"vsbtnsmallcross\" style=\"float:right\" ng-click=\"closeTooltip($event)\"><span class=\"icon vsiconsmallcross icon-cross\"></span></button>\n" +
+        "            <button class=\"vsbtnsmallcross\" style=\"float:right\" ng-click=\"closeTooltip($event)\"><span\n" +
+        "                    class=\"icon vsiconsmallcross icon-cross\"></span></button>\n" +
         "            txt\n" +
         "        </div>\n" +
-        "    </script>  \n" +
+        "    </script>\n" +
         "</div>");
 }]);
 
 angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function ($templateCache) {
     $templateCache.put("templates/vsscrollbar.html",
-        "<table class=\"vsscrollbarcontainer\" ng-show=\"filteredItems.length > 0\" style=\"border-collapse:separate; border-spacing:0; padding:0; height:100%;\">\n" +
+        "<table class=\"vsscrollbarcontainer\" ng-show=\"filteredItems.length > 0\"\n" +
+        "       style=\"border-collapse:separate; border-spacing:0; padding:0; height:100%;\">\n" +
         "    <tr>\n" +
         "        <td style=\"width:100%; padding:0; vertical-align: top;\">\n" +
-        "            <div class=\"vsscrollbarcontent\" ng-style=\"{'margin': scrollbarVisible ? '1px 0 1px 1px' : '1px'}\" style=\"overflow-y:hidden; padding:0; outline:0;\" ng-transclude></div>\n" +
+        "            <div class=\"vsscrollbarcontent\" ng-style=\"{'margin': scrollbarVisible ? '1px 0 1px 1px' : '1px'}\"\n" +
+        "                 style=\"overflow-y:hidden; padding:0; outline:0;\" ng-transclude></div>\n" +
         "        </td>\n" +
         "        <td style=\"padding:0; height:100%;\">\n" +
-        "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\" style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
-        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-style=\"{'height': boxHeight + 'px'}\" ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
+        "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\"\n" +
+        "                 style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
+        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-style=\"{'height': boxHeight + 'px'}\"\n" +
+        "                     ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
         "            </div>\n" +
         "        </td>\n" +
         "    </tr>\n" +

@@ -158,7 +158,7 @@
 
 .vsdropdown .vsoverlaytitle {
     display: table;
-    padding: 3px;
+    padding: 2px 4px;
     margin: 2px;
     border-radius: 2px
 }
@@ -260,10 +260,12 @@
     border-radius: 2px
 }
 
-.vsdropdown table {
+.vsdropdown table, .vsdropdown table td, .vsdropdown table th, .vsdropdown table tr {
+    border: none;
+    text-align: left;
+    line-height: 1.1;
     border-collapse: separate;
-    border-spacing: 0;
-    padding: 0
+    border-spacing: 0
 }
 
 .vsdropdown .vsselecteditemcolor {
