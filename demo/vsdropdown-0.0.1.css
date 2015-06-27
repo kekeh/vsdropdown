@@ -1,0 +1,426 @@
+/*
+vsdropdown styles
+*/
+.vsdropdown {
+    position: relative;
+    min-width: 180px;
+    border: 1px solid #999;
+}
+
+.vsdropdown,
+.vsdropdown * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.vsdropdown table,
+.vsdropdown table tr,
+.vsdropdown table td,
+.vsdropdown table th {
+    border: none;
+    text-align: left;
+    line-height: 1.1;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.vsdropdown .vsselectiongroup {
+    position: relative;
+    display: table;
+    border: none;
+}
+
+.vsdropdown .vsselection {
+    background-color: #FFF;
+    height: 38px;
+    display: table-cell;
+    position: absolute;
+    width: 100%;
+}
+
+.vsdropdown .vsselbtngroup {
+    position: relative;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 1%;
+    display: table-cell;
+    text-align: right;
+    font-size: 0;
+}
+
+.vsdropdown .vsbtnselector,
+.vsdropdown .vsbtnselections {
+    height: 38px;
+    width: 30px;
+    border: none;
+    border-left: 1px solid #999;
+}
+
+.vsdropdown .vsselectioncounttxt {
+    color: #000;
+    cursor: pointer;
+    position: absolute;
+    bottom: 1px;
+    right: 32px;
+    font-size: 10px;
+}
+
+.vsdropdown .vsbtncross {
+    float: right;
+}
+
+.vsdropdown .vsbtncross,
+.vsdropdown .vsbtnfilterclear {
+    width: 21px;
+    height: 21px;
+}
+
+.vsdropdown .vsbtncross,
+.vsdropdown .vsbtnfilterclear,
+.vsdropdown .vsbtnsmallcross {
+    border: 1px solid #777;
+    border-radius: 2px;
+    font-size: 0;
+}
+
+.vsdropdown button {
+    background-color: #FFF;
+    padding: 0px;
+    cursor: pointer;
+    outline: 0;
+    -moz-user-select: none;
+}
+
+.vsdropdown button:focus,
+.vsdropdown button:hover {
+    background-color: #ADD8E6;
+}
+
+.vsdropdown .vsselector {
+    padding: 1px;
+    background-color: #FFF;
+    z-index: 1000;
+    position: absolute;
+    top: 38px;
+    left: -1px;
+    right: -1px;
+    padding: 2px;
+    border-radius: 0 0 2px 2px;
+}
+
+.vsdropdown .vsitemcontent {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.vsdropdown .vsiteminclude {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.vsdropdown .vsitem {
+    height: 36px;
+    padding-left: 4px;
+    cursor: pointer;
+    display: table;
+}
+
+.vsdropdown .vsitem:not(last-child) {
+    margin-bottom: 1px;
+}
+
+.vsdropdown .vsitemtext {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: left;
+    padding-right: 4px;
+}
+
+.vsdropdown .vsfilterinput {
+    border: none;
+    background-color: transparent;
+    padding-left: 8px;
+    height: 36px;
+    width: 100%;
+    font-size: 14px;
+    outline: 0;
+    border-radius: 2px;
+}
+
+.vsdropdown .vsfiltermatchtext {
+    padding: 0px 2px 0px 2px;
+    background-color: inherit;
+    text-align: right;
+}
+
+.vsdropdown .vsiconfilterclear,
+.vsdropdown .vsfiltermatch {
+    border: none;
+    background-color: inherit;
+    width: 1px;
+    font-size: 14px;
+    white-space: nowrap;
+    padding-right: 4px;
+}
+
+.vsdropdown .vsoverlaytitle {
+    display: table;
+    padding: 2px 4px;
+    margin: 2px;
+    border-radius: 2px;
+}
+
+.vsdropdown .vsoverlaytitletext {
+    font-size: 13px;
+    background-color: #FFF;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%
+}
+
+.vsdropdown .vsbtnsmallcross {
+    display: table-cell;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+}
+
+.vsdropdown .vsiconsmallcross {
+    font-size: 11px;
+}
+
+.vsdropdown .vsselecteditem {
+    padding: 0 4px;
+    height: 34px;
+    display: table;
+}
+
+.vsdropdown .vsselection .vsselecteditem {
+    margin: 2px;
+}
+
+.vsdropdown .vsoverlay {
+    background-color: #FAFAFA;
+    z-index: 1002;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+}
+
+.vsdropdown .vsoverlay .vsselecteditem {
+    margin: 2px;
+}
+
+.vsdropdown .vsoverlay .vsselecteditem:last-child {
+    margin-bottom: 2px;
+}
+
+.vsdropdown .vsiconselector,
+.vsdropdown .vsiconselections,
+.vsdropdown .vsiconcheck {
+    font-size: 16px;
+}
+
+.vsdropdown .vsiconcross,
+.vsdropdown .vsiconclear {
+    font-size: 15px;
+}
+
+.vsdropdown .vstooltip {
+    background-color: #FFFFCC;
+    color: #000;
+    padding: 6px;
+    z-index: 1003;
+    max-width: 800px;
+    white-space: normal;
+    font-weight: normal;
+    border-radius: 4px;
+    margin-top: -20px;
+    margin-left: 14px;
+}
+
+.vsdropdown .vstooltip:before {
+    border-right: 10px solid #888;
+    left: -10px;
+}
+
+.vsdropdown .vstooltip:after {
+    border-right: 8px solid #FFFFCC;
+    left: -8px;
+}
+
+.vsdropdown .vstooltip:before,
+.vsdropdown .vstooltip:after {
+    content: ' ';
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    position: absolute;
+    z-index: 1003;
+    top: 5px;
+}
+
+.vsdropdown .vsoverlay,
+.vsdropdown .vstooltip {
+    border: 1px solid #AAA;
+    position: absolute;
+    -moz-box-shadow: 0 0 14px #000;
+    -webkit-box-shadow: 0 0 14px #000;
+    box-shadow: 0 0 14px #000;
+}
+
+.vsdropdown .vsitem,
+.vsdropdown .vsselector,
+.vsdropdown .vsoverlaytitle,
+.vsdropdown .vsselecteditem,
+.vsdropdown .vsfiltergroup {
+    border: 1px solid #999;
+}
+
+.vsdropdown div,
+.vsdropdown .vsdetails th,
+.vsdropdown .vsdetails td {
+    color: #3A87AD;
+}
+
+.vsdropdown .vsitem,
+.vsdropdown .vsselecteditem,
+.vsdropdown .vsfiltergroup {
+    border-radius: 2px;
+}
+
+.vsdropdown .vsselecteditemcolor {
+    background-color: #EEE;
+    border: 1px solid #777;
+}
+
+.vsdropdown .vsfocuseditemcolor {
+    background-color: #98FEFF;
+}
+
+.vsdropdown .vshitsfilter {
+    -moz-box-shadow: 0 0 5px #00FF00 inset;
+    -webkit-box-shadow: 0 0 5px #00FF00 inset;
+    box-shadow: 0 0 5px #00FF00 inset;
+}
+
+.vsdropdown .vsnohitsfilter {
+    -moz-box-shadow: 0 0 5px #FF0000 inset;
+    -webkit-box-shadow: 0 0 5px #FF0000 inset;
+    box-shadow: 0 0 5px #FF0000 inset;
+}
+
+.vsdropdown input[type=text]::-ms-clear {
+    display: none;
+}
+
+.vsdropdown ::-moz-focus-inner {
+    border: 0;
+}
+
+/*
+    Icons
+*/
+@font-face {
+    font-family: 'vsdropdown';
+    src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon {
+    font-family: 'vsdropdown';
+    color: #000;
+    background: transparent !important;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 16px;
+    height: 16px;
+}
+
+.icon-check:before {
+    content: "\e600";
+}
+
+.icon-clear:before {
+    content: "\e601";
+}
+
+.icon-cross:before {
+    content: "\e602";
+}
+
+.icon-down:before {
+    content: "\e603";
+}
+
+.icon-selections:before {
+    content: "\e609";
+}
+
+.icon-up:before {
+    content: "\e60b";
+}
+
+/*
+vsscrollbar styles
+*/
+
+.vsscrollbarcontainer {
+    position: relative;
+    min-width: 150px;
+    width: 100%;
+    background-color: #FFF;
+    border-radius: 2px;
+    top: 2px;
+}
+
+.vsscrollbarcontainer * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.vsscrollbarcontainer .vsscrollbarcontent {
+    margin: 0 0 1px 0 !important;
+}
+
+.vsscrollbarcontainer .vsscrollbar {
+    width: 20px;
+    background: #CCC;
+    background: -webkit-linear-gradient(left, #CCC, #999, #BBB);
+    background: -o-linear-gradient(right, #CCC, #999, #BBB);
+    background: -moz-linear-gradient(right, #CCC, #999, #BBB);
+    background: linear-gradient(to right, #CCC, #999, #BBB);
+    margin-left: 2px !important;
+}
+
+.vsscrollbarcontainer .vsscrollbox {
+    background: #BBB;
+    background: -webkit-linear-gradient(left, #DDD, #999);
+    background: -o-linear-gradient(right, #DDD, #999);
+    background: -moz-linear-gradient(right, #DDD, #999);
+    background: linear-gradient(to right, #DDD, #999);
+    border: 1px solid #444;
+    cursor: pointer;
+}
+
+.vsscrollbarcontainer .vsscrollbox:hover,
+.vsscrollbarcontainer .vsscrollbox:focus {
+    background: #ADD8E6;
+}
+
+.vsscrollbarcontainer .vsscrollbar,
+.vsscrollbarcontainer .vsscrollbox {
+    border-radius: 2px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
