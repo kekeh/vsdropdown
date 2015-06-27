@@ -89,7 +89,7 @@ angular.module('vsscrollbar', [])
                 onScrollChangeFn: '&'
             },
             transclude: true,
-            templateUrl: '../templates/vsscrollbar.html',
+            templateUrl: 'templates/vsscrollbar.html',
             link: function (scope, element, attrs) {
                 scope.filteredItems = [];
                 var scrollbarContent = angular.element(element[0].querySelector('.vsscrollbarcontent'));
@@ -318,7 +318,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
     .directive('vsdropdown', ['vsscrollbarEvent', function (vsscrollbarEvent) {
         return {
             restrict: 'EA',
-            templateUrl: '../templates/vsdropdown.html',
+            templateUrl: 'templates/vsdropdown.html',
             scope: {
                 options: '='
             },
