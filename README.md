@@ -1,4 +1,4 @@
-# vsdropdown v. 0.0.1
+# vsdropdown v. 0.0.2
 
 **Virtual scroll dropdown - AngularJS reusable UI component**
 
@@ -35,10 +35,10 @@ AngularJS directive which implements the virtual scroll dropdown.
 
 ## Usage
 
-* include the **vsdropdown-0.0.1.min.js** and the **vsdropdown-0.0.1.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
+* include the **vsdropdown-0.0.2.min.js** and the **vsdropdown-0.0.2.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
 ```html
-<script src="vsscrollbar-0.0.1.min.js"></script>
-<link href="vsscrollbar-0.0.1.min.css" rel="stylesheet" type="text/css">
+<script src="vsscrollbar-0.0.2.min.js"></script>
+<link href="vsscrollbar-0.0.2.min.css" rel="stylesheet" type="text/css">
 ```
 * inject the **vsdropdown** module into your application module.
 ```js
@@ -76,6 +76,7 @@ angular.module('sampleapp', ['vsdropdown']);
 | input.**isObject** | Is items (see above) array of strings or array of objects. | true or false | yes |
 | input.**visiblePropName** | This is visible property name. Only if **isObject** is true. | string | depends value of previous property |
 | **filter** | Object which contain sub properties. | See below. | yes |
+| filter.**enabled** | Is filtering enabled or not. If **false** the filter input box is hidden.| true or false | yes |
 | filter.**filterPlaceholderTxt** | Filter input box placeholder text. | string | yes |
 | filter.**noHitsTxt** | Filter no hits text. | string | yes |
 | **selection** | Object which contain sub properties. | See below. | yes |

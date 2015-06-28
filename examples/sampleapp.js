@@ -88,13 +88,14 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
             visiblePropName: 'name'
         },
         filter: {
+            enabled: true,
             filterPlaceholderTxt: 'Type filter...',
             noHitsTxt: 'No hit(s)'
         },
         selection: {
             maximum: 1
         },
-        visibleItemCount: 5,
+        visibleItemCount: 4,
         showTooltip: true,
         fadeInEffects: true,
         itemSelectCb: onSelectItem

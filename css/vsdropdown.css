@@ -96,7 +96,6 @@ vsdropdown styles
     background-color: #FFF;
     z-index: 1000;
     position: absolute;
-    top: 38px;
     left: -1px;
     right: -1px;
     padding: 2px;
@@ -131,6 +130,10 @@ vsdropdown styles
     font-size: 14px;
     text-align: left;
     padding-right: 4px;
+}
+
+.vsdropdown .vsfiltergroup {
+    margin-bottom: 2px;
 }
 
 .vsdropdown .vsfilterinput {
@@ -180,6 +183,7 @@ vsdropdown styles
     vertical-align: middle;
     width: 17px;
     height: 17px;
+    margin-left: 6px;
 }
 
 .vsdropdown .vsiconsmallcross {
@@ -380,7 +384,6 @@ vsscrollbar styles
     width: 100%;
     background-color: #FFF;
     border-radius: 2px;
-    top: 2px;
 }
 
 .vsscrollbarcontainer * {

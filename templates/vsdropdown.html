@@ -25,7 +25,7 @@
     </div>
 
     <div class="vsselector" ng-show="showSelector">
-        <table style="width: 100%" class="vsfiltergroup"
+        <table style="width: 100%" class="vsfiltergroup" ng-show="options.filter.enabled"
                ng-class="{'vsnohitsfilter': filteredItemCount === 0, 'vshitsfilter': filteredItemCount > 0}">
             <tr>
                 <td>
@@ -34,8 +34,8 @@
                            ng-model-options="{debounce: config.FILTERING_BEGIN_DELAY}"
                            data-ng-trim="false"
                            placeholder="{{options.filter.filterPlaceholderTxt}}"
-                           item-selected-fn="itemClicked(index)"
-                           filter-focus/>
+                           ng-keydown="keyDown($event)"
+                           ng-blur="focusIdx=-1"/>
                 </td>
                 <td class="vsfiltermatch">
                     <div class="vsfiltermatchtext">{{filteredItemCount > 0 ? filteredItemCount :
@@ -43,7 +43,7 @@
                     </div>
                 </td>
                 <td class="vsiconfilterclear" ng-show="filterText.length > 0">
-                    <button class="vsbtnfilterclear" ng-click="filterText='';filterFocusEvent()">
+                    <button class="vsbtnfilterclear" ng-click="filterText='';listFocusEvent()">
                         <span class="icon vsiconclear icon-clear"></span>
                     </button>
                 </td>
@@ -51,8 +51,11 @@
         </table>
 
         <div vsscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}"
-             height="{{options.visibleItemCount*config.ITEM_HEIGHT-2}}"
-             on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)">
+             ng-keydown="keyDown($event)" ng-focus="focus()" ng-blur="blur()" list-focus
+             height="{{options.visibleItemCount*config.ITEM_HEIGHT-1}}"
+             on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)"
+             on-focus-scrollbox-fn="onFocusScrollbox(focused)"
+             tabindex="0">
             <div class="vsitem"
                  ng-repeat="item in visibleItems track by $index"
                  ng-click="itemClicked($index)"

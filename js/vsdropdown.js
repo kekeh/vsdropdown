@@ -86,7 +86,8 @@ angular.module('vsscrollbar', [])
             scope: {
                 ngModel: '=?',
                 items: '=items',
-                onScrollChangeFn: '&'
+                onScrollChangeFn: '&',
+                onFocusScrollboxFn: '&'
             },
             transclude: true,
             templateUrl: 'templates/vsscrollbar.html',
@@ -271,6 +272,14 @@ angular.module('vsscrollbar', [])
                     return scope.filteredItems.slice(index, index + itemsInPage);
                 }
 
+                scope.scrollBoxFocus = function () {
+                    scope.onFocusScrollboxFn({focused: true});
+                }
+
+                scope.scrollBoxBlur = function () {
+                    scope.onFocusScrollboxFn({focused: false});
+                }
+
                 function init() {
                     scope.filteredItems = scope.items;
                     if (scrollbarHeight === 0) {
@@ -303,7 +312,7 @@ angular.module('vsscrollbar', [])
 angular.module('vsdropdown', ['vsscrollbar'])
     .constant('vsdropdownConfig', {
         ITEM_HEIGHT: 37,
-        FILTER_FOCUS_EVENT: 'vsdropdown.filterFocusEvent',
+        LIST_FOCUS_EVENT: 'vsdropdown.listFocusEvent',
         OPERATION_ADD: '+',
         OPERATION_DEL: '-',
         TOOLTIP_OPEN_DELAY: 900,
@@ -329,18 +338,20 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 $scope.topIndex = 0;
                 $scope.focusIdx = -1;
 
-                $scope.filterFocusEvent = function () {
-                    $scope.$broadcast($scope.config.FILTER_FOCUS_EVENT);
+                $scope.listFocusEvent = function () {
+                    $scope.$broadcast($scope.config.LIST_FOCUS_EVENT);
                 };
             }],
             link: function (scope, element, attrs) {
                 scope.selectedItems = [];
                 scope.showSelector = false;
+                var scrollFocus = false;
 
                 scope.selector = function () {
                     scope.showSelector = !scope.showSelector;
                     if (scope.showSelector) {
-                        scope.filterFocusEvent();
+                        scope.listFocusEvent();
+                        scope.focusIdx = 0;
                     }
                 };
 
@@ -364,10 +375,10 @@ angular.module('vsdropdown', ['vsscrollbar'])
                         scope.removeItem(scope.selectedItems.indexOf(item));
                     }
                     if (scope.options.selection.maximum === 1) {
-                        scope.selector();
+                        scope.showSelector = false;
                     }
-                    else if (scope.showSelector) {
-                        scope.filterFocusEvent();
+                    else {
+                        scope.focusIdx = index;
                     }
                 };
 
@@ -391,7 +402,6 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     }
                     scope.selectedItems.splice(index, 1);
                     notifyParent(item, scope.config.OPERATION_DEL);
-                    scope.filterFocusEvent();
                 };
 
                 scope.isItemSelected = function (item) {
@@ -404,58 +414,12 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     scope.visibleItems = visibleItems;
                 };
 
-                var filterWatch = scope.$watch('filterText', filterWatchFn);
+                scope.onFocusScrollbox = function (focused) {
+                    scrollFocus = focused;
+                };
 
-                function filterWatchFn(newVal, oldVal) {
-                    if (newVal !== oldVal) {
-                        vsscrollbarEvent.filter(scope, newVal);
-                    }
-                }
-
-                function notifyParent(item, oper) {
-                    if (!angular.isUndefined(scope.options.itemSelectCb)) {
-                        scope.options.itemSelectCb(scope.selectedItems, item, oper);
-                    }
-                }
-
-                function init() {
-                    scope.visiblePropName = scope.options.input.isObject ? scope.options.input.visiblePropName : null;
-                    scope.selectedItems = scope.options.selectedItems;
-                }
-
-                scope.$on('$destroy', function () {
-                    filterWatch();
-                });
-
-                init();
-            }
-        };
-    }])
-
-/**
- * @ngdoc object
- * @name filterFocus
- * @description filterFocus is directive which set focus to the global filter input box when the
- * filter icon is clicked. Also the keydown (enter, key up, key down and esc) events are handled
- * in the directive.
- */
-    .directive('filterFocus', ['$timeout', 'vsscrollbarEvent', function ($timeout, vsscrollbarEvent) {
-        return {
-            restrict: 'A',
-            scope: false,
-            link: function (scope, element, attrs) {
-                scope.$on(scope.config.FILTER_FOCUS_EVENT, function () {
-                    $timeout(function () {
-                        element[0].focus();
-                    });
-                });
-
-                function onBlur() {
-                    scope.focusIdx = -1;
-                }
-
-                function onKeyDown(event) {
-                    scope.$apply(function () {
+                scope.keyDown = function (event) {
+                    if (!scrollFocus) {
                         if (event.which === 13 && scope.focusIdx > -1) {
                             scope.itemClicked(scope.focusIdx);
                         }
@@ -480,24 +444,65 @@ angular.module('vsdropdown', ['vsscrollbar'])
                         else if (event.which === 27) {
                             scope.showSelector = false;
                         }
-                    });
+                    }
+                };
+
+                var filterWatch = scope.$watch('filterText', filterWatchFn);
+
+                function filterWatchFn(newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        vsscrollbarEvent.filter(scope, newVal);
+                    }
+                }
+
+                function notifyParent(item, oper) {
+                    if (!angular.isUndefined(scope.options.itemSelectCb)) {
+                        scope.options.itemSelectCb(scope.selectedItems, item, oper);
+                    }
                 }
 
                 function isFocusBottom() {
                     return scope.focusIdx === scope.options.visibleItemCount - 1 || scope.focusIdx === scope.filteredItemCount - 1;
                 }
 
-                scope.$on('$destroy', function () {
-                    element.off('keydown', onKeyDown);
-                    element.off('blur', onBlur);
-                });
-
                 function init() {
-                    element.on("blur", onBlur);
-                    element.on("keydown", onKeyDown);
+                    scope.visiblePropName = scope.options.input.isObject ? scope.options.input.visiblePropName : null;
+                    scope.selectedItems = scope.options.selectedItems;
                 }
 
+                scope.$on('$destroy', function () {
+                    filterWatch();
+                });
+
                 init();
+            }
+        };
+    }])
+
+/**
+ * @ngdoc object
+ * @name listFocus
+ * @description listFocus is directive which set focus to the list when the
+ * selector is opened.
+ */
+    .directive('listFocus', ['$timeout', function ($timeout) {
+        return {
+            restrict: 'A',
+            scope: false,
+            link: function (scope, element, attrs) {
+                scope.$on(scope.config.LIST_FOCUS_EVENT, function () {
+                    $timeout(function () {
+                        element[0].focus();
+                    });
+                });
+
+                scope.blur = function () {
+                    scope.focusIdx = -1;
+                }
+
+                scope.focus = function () {
+                    scope.focusIdx = 0;
+                }
             }
         };
     }])
