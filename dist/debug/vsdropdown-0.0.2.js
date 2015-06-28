@@ -134,7 +134,8 @@ angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function
         "        <td style=\"padding:0; height:100%;\">\n" +
         "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\"\n" +
         "                 style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
-        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\" ng-style=\"{'height': boxHeight + 'px'}\"\n" +
+        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\"\n" +
+        "                     ng-style=\"{'height': boxHeight + 'px'}\"\n" +
         "                     ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
         "            </div>\n" +
         "        </td>\n" +
@@ -565,6 +566,9 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 scope.keyDown = function (event) {
                     if (!scrollFocus) {
+                        if (event.which === 13 || event.which === 38 || event.which === 40 || event.which === 27) {
+                            event.preventDefault();
+                        }
                         if (event.which === 13 && scope.focusIdx > -1) {
                             scope.itemClicked(scope.focusIdx);
                         }

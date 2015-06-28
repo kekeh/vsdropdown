@@ -420,6 +420,9 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 scope.keyDown = function (event) {
                     if (!scrollFocus) {
+                        if (event.which === 13 || event.which === 38 || event.which === 40 || event.which === 27) {
+                            event.preventDefault();
+                        }
                         if (event.which === 13 && scope.focusIdx > -1) {
                             scope.itemClicked(scope.focusIdx);
                         }
