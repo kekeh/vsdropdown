@@ -82,10 +82,8 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "        <table class=\"vsitemcontent\">\n" +
         "            <tr>\n" +
         "                <td style=\"width:24px\" ng-if=\"options.input.isObject && options.input.properties.enabled\">\n" +
-        "                    <button class=\"vsbtnproperties\" popover-window ng-mouseleave=\"closeProperties()\"\n" +
-        "                            ng-click=\"showProperties($event)\">\n" +
-        "                        <span class=\"icon vsiconproperties\"\n" +
-        "                              ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\"></span>\n" +
+        "                    <button class=\"vsbtnproperties\" popover-window ng-mouseleave=\"closeProperties()\" ng-click=\"showProperties($event)\">\n" +
+        "                        <span class=\"icon vsiconproperties\" ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\"></span>\n" +
         "                    </button>\n" +
         "                </td>\n" +
         "                <td class=\"vsitemtext\" tooltip-window=\"{{visiblePropName === null ? item : item[visiblePropName]}}\">\n" +

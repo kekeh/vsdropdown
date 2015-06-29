@@ -200,12 +200,8 @@
     right: -1px
 }
 
-.vsdropdown .vsiconcheck, .vsdropdown .vsiconselections, .vsdropdown .vsiconselector {
+.vsdropdown .vsiconcheck, .vsdropdown .vsiconclear, .vsdropdown .vsiconcross, .vsdropdown .vsiconproperties, .vsdropdown .vsiconselections, .vsdropdown .vsiconselector {
     font-size: 16px
-}
-
-.vsdropdown .vsiconclear, .vsdropdown .vsiconcross, .vsdropdown .vsiconproperties {
-    font-size: 15px
 }
 
 .vsdropdown .vstooltip {
@@ -287,7 +283,7 @@
 }
 
 .vsdropdown .vsselecteditemcolor {
-    background-color: #EEE;
+    background-color: #FAFAFA;
     border: 1px solid #777
 }
 
@@ -371,10 +367,6 @@
 
 .vsscrollbarcontainer * {
     box-sizing: border-box
-}
-
-.vsscrollbarcontainer .vsscrollbarcontent {
-    margin: 0 0 1px !important
 }
 
 .vsscrollbarcontainer .vsscrollbar {

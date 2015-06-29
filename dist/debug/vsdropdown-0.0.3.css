@@ -227,7 +227,7 @@ vsdropdown styles
 .vsdropdown .vsiconcross,
 .vsdropdown .vsiconclear,
 .vsdropdown .vsiconproperties {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .vsdropdown .vstooltip {
@@ -327,7 +327,7 @@ vsdropdown styles
 }
 
 .vsdropdown .vsselecteditemcolor {
-    background-color: #EEE;
+    background-color: #FAFAFA;
     border: 1px solid #777;
 }
 
@@ -423,7 +423,7 @@ vsscrollbar styles
 }
 
 .vsscrollbarcontainer .vsscrollbarcontent {
-    margin: 0 0 1px 0 !important;
+
 }
 
 .vsscrollbarcontainer .vsscrollbar {
