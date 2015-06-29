@@ -1,13 +1,13 @@
 /* 
  *  Name: vsdropdown
  *  Description: Virtual scroll dropdown - AngularJS reusable UI component
- *  Version: 0.0.2
+ *  Version: 0.0.3
  *  Author: kekeh
  *  Homepage: http://kekeh.github.io/vsdropdown
  *  License: MIT
- *  Date: 2015-06-28
+ *  Date: 2015-06-29
  */
-angular.module('template-vsdropdown-0.0.2.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
+angular.module('template-vsdropdown-0.0.3.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
 
 angular.module("templates/vsdropdown.html", []).run(["$templateCache", function ($templateCache) {
     $templateCache.put("templates/vsdropdown.html",
@@ -81,6 +81,11 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "    <script type=\"text/ng-template\" id=\"vsitemcontent.html\">\n" +
         "        <table class=\"vsitemcontent\">\n" +
         "            <tr>\n" +
+        "                <td style=\"width:24px\" ng-if=\"options.input.isObject && options.input.properties.enabled\">\n" +
+        "                    <button class=\"vsbtnproperties\" popover-window ng-mouseleave=\"closeProperties()\" ng-click=\"showProperties($event)\">\n" +
+        "                        <span class=\"icon vsiconproperties\" ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\"></span>\n" +
+        "                    </button>\n" +
+        "                </td>\n" +
         "                <td class=\"vsitemtext\" tooltip-window=\"{{visiblePropName === null ? item : item[visiblePropName]}}\">\n" +
         "                    {{visiblePropName === null ? item : item[visiblePropName]}}\n" +
         "                </td>\n" +
@@ -89,7 +94,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                        <span class=\"icon vsiconcross icon-cross\"></span>\n" +
         "                    </button>\n" +
         "                </td>\n" +
-        "                <td class=\"vsiconcheck\" ng-if=\"id === 2\" ng-show=\"isItemSelected(item)\" style=\"width:24px;\">\n" +
+        "                <td class=\"vsiconcheck\" ng-if=\"id === 2\" ng-show=\"isItemSelected(item)\" style=\"width:24px\">\n" +
         "                    <span class=\"icon icon-check\"></span>\n" +
         "                </td>\n" +
         "            </tr>\n" +
@@ -102,7 +107,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "            <div class=\"vsoverlaytitle\">\n" +
         "                <span class=\"vsoverlaytitletext\">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>\n" +
         "                <button class=\"vsbtnsmallcross\" ng-click=\"closeOverlay()\">\n" +
-        "                    <span style=\"\" class=\"icon vsiconsmallcross icon-cross\"></span>\n" +
+        "                    <span class=\"icon vsiconsmallcross icon-cross\"></span>\n" +
         "                </button>\n" +
         "            </div>\n" +
         "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\"\n" +
@@ -113,12 +118,29 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "    </script>\n" +
         "\n" +
         "    <script type=\"text/ng-template\" id=\"vstooltip.html\">\n" +
-        "        <div class=\"vstooltip\" opacity ng-style=\"{'opacity': opacity}\">\n" +
-        "            <button class=\"vsbtnsmallcross\" style=\"float:right\" ng-click=\"closeTooltip($event)\"><span\n" +
-        "                    class=\"icon vsiconsmallcross icon-cross\"></span></button>\n" +
-        "            txt\n" +
+        "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:10px\" opacity ng-style=\"{'opacity': opacity}\">\n" +
+        "            <button class=\"vsbtnsmallcross\" style=\"float:right\" ng-click=\"closeTooltip($event)\">\n" +
+        "                <span class=\"icon vsiconsmallcross icon-cross\"></span>\n" +
+        "            </button>\n" +
+        "            {{visiblePropName === null ? item : item[visiblePropName]}}\n" +
         "        </div>\n" +
         "    </script>\n" +
+        "\n" +
+        "    <script type=\"text/ng-template\" id=\"vspopover.html\">\n" +
+        "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:28px\" opacity ng-style=\"{'opacity': opacity}\">\n" +
+        "            <table class=\"vsproperties\" ng-click=\"closeProperties();$event.stopPropagation()\">\n" +
+        "                <tr>\n" +
+        "                    <th>{{options.input.properties.propertyTitle}}</th>\n" +
+        "                    <th>{{options.input.properties.valueTitle}}</th>\n" +
+        "                </tr>\n" +
+        "                <tr ng-repeat=\"prop in options.input.properties.props\">\n" +
+        "                    <td>{{prop.trim()}}</td>\n" +
+        "                    <td>{{item[prop.trim()]}}</td>\n" +
+        "                </tr>\n" +
+        "            </table>\n" +
+        "        </div>\n" +
+        "    </script>\n" +
+        "\n" +
         "</div>");
 }]);
 
@@ -134,7 +156,8 @@ angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function
         "        <td style=\"padding:0; height:100%;\">\n" +
         "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\"\n" +
         "                 style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
-        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\" ng-style=\"{'height': boxHeight + 'px'}\"\n" +
+        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\"\n" +
+        "                     ng-style=\"{'height': boxHeight + 'px'}\"\n" +
         "                     ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
         "            </div>\n" +
         "        </td>\n" +
@@ -143,7 +166,7 @@ angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function
         "");
 }]);
 
-angular.module('vsscrollbar', ["template-vsdropdown-0.0.2.html"])
+angular.module('vsscrollbar', ["template-vsdropdown-0.0.3.html"])
     .constant('vsscrollbarConfig', {
         ITEMS_IN_PAGE: 6,
         SCROLLBAR_HEIGHT: 0,
@@ -678,7 +701,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
                             $http.get('vstooltip.html', {cache: $templateCache}).success(function (tpl) {
-                                tooltip = angular.element(tpl.replace('txt', attrs.tooltipWindow));
+                                tooltip = angular.element(tpl);
                                 element.append($compile(tooltip)(scope));
                             });
                         }, scope.config.TOOLTIP_OPEN_DELAY);
@@ -718,6 +741,60 @@ angular.module('vsdropdown', ['vsscrollbar'])
                         element.on('mouseleave', onMouseLeave);
                         scrollChangeWatch = scope.$watch('topIndex', scrollChangeWatchFn);
                     }
+                }
+
+                init();
+            }
+        };
+    }])
+
+/**
+ * @ngdoc object
+ * @name popoverWindow
+ * @description popoverWindow directive implements popover window which show all properties of the item.
+ */
+    .directive('popoverWindow', ['$compile', '$http', '$templateCache', function ($compile, $http, $templateCache) {
+        return {
+            restrict: 'A',
+            scope: false,
+            link: function (scope, element, attrs) {
+                scope.popover = null;
+                var scrollChangeWatch = null;
+
+                scope.showProperties = function (event) {
+                    event.stopPropagation();
+                    if (angular.equals(scope.popover, null)) {
+                        $http.get('vspopover.html', {cache: $templateCache}).success(function (tpl) {
+                            scope.popover = angular.element(tpl);
+                            element.append($compile(scope.popover)(scope));
+                        });
+                    }
+                    else {
+                        scope.closeProperties();
+                    }
+                }
+
+                scope.closeProperties = function () {
+                    if (!angular.equals(scope.popover, null)) {
+                        scope.popover.remove();
+                        scope.popover = null;
+                    }
+                }
+
+                function scrollChangeWatchFn(newVal, oldVal) {
+                    if (!angular.equals(newVal, oldVal)) {
+                        scope.closeProperties();
+                    }
+                }
+
+                scope.$on('$destroy', function () {
+                    if (!angular.equals(scrollChangeWatch, null)) {
+                        scrollChangeWatch();
+                    }
+                });
+
+                function init() {
+                    scrollChangeWatch = scope.$watch('topIndex', scrollChangeWatchFn);
                 }
 
                 init();

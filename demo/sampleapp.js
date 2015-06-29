@@ -29,7 +29,14 @@ sampleapp.controller('sampleappctrl', function ($scope) {
         items: items,
         selectedItems: selectedItems,
         input: {
-            isObject: false
+            isObject: true,
+            visiblePropName: 'name',
+            properties: {
+                enabled: true,
+                props: ['id', 'active', 'number'],
+                propertyTitle: 'Property',
+                valueTitle: 'Value'
+            }
         },
         filter: {
             enabled: true,
@@ -49,13 +56,23 @@ sampleapp.controller('sampleappctrl', function ($scope) {
     // generate test items to the vsdropdown
     function generateItems() {
         for (var i = 0; i < generatedCount; i++) {
-            items.push((i % 6 === 0) ?
-            'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem, ipsum dolor sit amet'
+            items.push((i % 4 === 0) ?
+            {
+                id: (i + 1),
+                name: 'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem',
+                active: 'yes',
+                number: Math.floor((Math.random() * 100000000) + 1000)
+            }
                 :
-            'Item #' + (i + 1));
+            {
+                id: (i + 1),
+                name: 'Item #' + (i + 1),
+                active: 'no',
+                number: Math.floor((Math.random() * 100000000) + 1000)
+            });
         }
-        // Set selcted item indecies 1 and 9999
-        selectedItems = [items[0], items[999]];
+
+        selectedItems.push(items[99]);
     }
 
 });
