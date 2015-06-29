@@ -76,7 +76,7 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
     var items = [];
     var selectedItems = [];
 
-    var generatedCount = 20000;
+    var generatedCount = 1000;
     generateItems();
 
     // Configuration of the vsdropdown
@@ -85,7 +85,13 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
         selectedItems: selectedItems,
         input: {
             isObject: true,
-            visiblePropName: 'name'
+            visiblePropName: 'name',
+            properties: {
+                enabled: true,
+                props: ['id', 'active'],
+                propertyTitle: 'Property',
+                valueTitle: 'Value'
+            }
         },
         filter: {
             enabled: true,
@@ -104,13 +110,14 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
     // generate test items to the vsdropdown
     function generateItems() {
         for (var i = 0; i < generatedCount; i++) {
-            items.push((i % 8 === 0) ?
+            items.push((i % 4 === 0) ?
             {
                 id: (i + 1),
-                name: 'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem'
+                name: 'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem',
+                active: 'yes'
             }
                 :
-            {id: (i + 1), name: 'Item #' + (i + 1)});
+            {id: (i + 1), name: 'Item #' + (i + 1), active: 'no'});
         }
     }
 

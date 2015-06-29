@@ -1,4 +1,4 @@
-# vsdropdown v. 0.0.2
+# vsdropdown v. 0.0.3
 
 **Virtual scroll dropdown - AngularJS reusable UI component**
 
@@ -35,10 +35,10 @@ AngularJS directive which implements the virtual scroll dropdown.
 
 ## Usage
 
-* include the **vsdropdown-0.0.2.min.js** and the **vsdropdown-0.0.2.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
+* include the **vsdropdown-0.0.3.min.js** and the **vsdropdown-0.0.3.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
 ```html
-<script src="vsscrollbar-0.0.2.min.js"></script>
-<link href="vsscrollbar-0.0.2.min.css" rel="stylesheet" type="text/css">
+<script src="vsscrollbar-0.0.3.min.js"></script>
+<link href="vsscrollbar-0.0.3.min.css" rel="stylesheet" type="text/css">
 ```
 * inject the **vsdropdown** module into your application module.
 ```js
@@ -75,6 +75,11 @@ angular.module('sampleapp', ['vsdropdown']);
 | **input** | Object which contain sub properties. | See below. | yes |
 | input.**isObject** | Is items (see above) array of strings or array of objects. | true or false | yes |
 | input.**visiblePropName** | This is visible property name. Only if **isObject** is true. | string | depends value of previous property |
+| input.**properties** | Object which contain sub properties. | See below. | yes |
+| input.properties.**enabled** | Is properties enebled or not. | true or false | if input.**isObject** is **true** |
+| input.properties.**props** | String array of property names of the one item. These properties are visible in properties popover. | array | if input.properties.**enabled** is **true** |
+| input.properties.**propertyTitle** | Property title in the popover. | string | if input.**isObject** is **true** |
+| input.properties.**valueTitle** | Value title in the popover. | string | if input.**isObject** is **true** |
 | **filter** | Object which contain sub properties. | See below. | yes |
 | filter.**enabled** | Is filtering enabled or not. If **false** the filter input box is hidden.| true or false | yes |
 | filter.**filterPlaceholderTxt** | Filter input box placeholder text. | string | yes |
@@ -100,12 +105,19 @@ sampleapp.controller('sampleappctrl', function ($scope) {
         }
     }, true);
     
-    // Configuration example of the vsdropdown. This example doesn't show all configuration properties
+    // Configuration example of the vsdropdown. 
     $scope.opt = {
         items: items,
         selectedItems: selectedItems,
         input: {
-            isObject: false
+            isObject: true,
+            visiblePropName: 'name',
+            properties: {
+                enabled: true,
+                props: ['id', 'name', 'active'],
+                propertyTitle: 'Property',
+                valueTitle: 'Value'
+            }
         },
         filter: {
             enabled: true,

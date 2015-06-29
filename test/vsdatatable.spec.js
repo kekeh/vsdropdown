@@ -1,21 +1,18 @@
-describe('vsdatatable', function () {
+describe('vsdropdown', function () {
     var elm, scope;
 
-    beforeEach(module('vsdatatable'));
+    beforeEach(module('vsdropdown'));
 
-    beforeEach(inject(function ($rootScope, $compile, vsdatatableEvent) {
-        /*
-         scope = $rootScope;
+    beforeEach(inject(function ($rootScope, $compile) {
 
-         eventapi = vsdatatableEvent;
+        scope = $rootScope;
 
 
+        elm = angular.element('<vsdropdown options="opt"></vsdropdown>');
 
-         elm = angular.element('<vsdatatable options="opt"></vsdatatable>');
+        $compile(elm)(scope);
+        scope.$digest();
 
-         $compile(elm)(scope);
-         scope.$digest();
-         */
     }));
 
     it("test 1", function () {
@@ -24,4 +21,3 @@ describe('vsdatatable', function () {
 
 
 });
-

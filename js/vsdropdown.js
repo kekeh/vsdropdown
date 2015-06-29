@@ -533,7 +533,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
                             $http.get('vstooltip.html', {cache: $templateCache}).success(function (tpl) {
-                                tooltip = angular.element(tpl.replace('txt', attrs.tooltipWindow));
+                                tooltip = angular.element(tpl);
                                 element.append($compile(tooltip)(scope));
                             });
                         }, scope.config.TOOLTIP_OPEN_DELAY);
@@ -573,6 +573,60 @@ angular.module('vsdropdown', ['vsscrollbar'])
                         element.on('mouseleave', onMouseLeave);
                         scrollChangeWatch = scope.$watch('topIndex', scrollChangeWatchFn);
                     }
+                }
+
+                init();
+            }
+        };
+    }])
+
+/**
+ * @ngdoc object
+ * @name popoverWindow
+ * @description popoverWindow directive implements popover window which show all properties of the item.
+ */
+    .directive('popoverWindow', ['$compile', '$http', '$templateCache', function ($compile, $http, $templateCache) {
+        return {
+            restrict: 'A',
+            scope: false,
+            link: function (scope, element, attrs) {
+                scope.popover = null;
+                var scrollChangeWatch = null;
+
+                scope.showProperties = function (event) {
+                    event.stopPropagation();
+                    if (angular.equals(scope.popover, null)) {
+                        $http.get('vspopover.html', {cache: $templateCache}).success(function (tpl) {
+                            scope.popover = angular.element(tpl);
+                            element.append($compile(scope.popover)(scope));
+                        });
+                    }
+                    else {
+                        scope.closeProperties();
+                    }
+                }
+
+                scope.closeProperties = function () {
+                    if (!angular.equals(scope.popover, null)) {
+                        scope.popover.remove();
+                        scope.popover = null;
+                    }
+                }
+
+                function scrollChangeWatchFn(newVal, oldVal) {
+                    if (!angular.equals(newVal, oldVal)) {
+                        scope.closeProperties();
+                    }
+                }
+
+                scope.$on('$destroy', function () {
+                    if (!angular.equals(scrollChangeWatch, null)) {
+                        scrollChangeWatch();
+                    }
+                });
+
+                function init() {
+                    scrollChangeWatch = scope.$watch('topIndex', scrollChangeWatchFn);
                 }
 
                 init();

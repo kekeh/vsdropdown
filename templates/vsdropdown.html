@@ -68,6 +68,13 @@
     <script type="text/ng-template" id="vsitemcontent.html">
         <table class="vsitemcontent">
             <tr>
+                <td style="width:24px" ng-if="options.input.isObject && options.input.properties.enabled">
+                    <button class="vsbtnproperties" popover-window ng-mouseleave="closeProperties()"
+                            ng-click="showProperties($event)">
+                        <span class="icon vsiconproperties"
+                              ng-class="popover!==null ? 'icon-down' : 'icon-right'"></span>
+                    </button>
+                </td>
                 <td class="vsitemtext" tooltip-window="{{visiblePropName === null ? item : item[visiblePropName]}}">
                     {{visiblePropName === null ? item : item[visiblePropName]}}
                 </td>
@@ -76,7 +83,7 @@
                         <span class="icon vsiconcross icon-cross"></span>
                     </button>
                 </td>
-                <td class="vsiconcheck" ng-if="id === 2" ng-show="isItemSelected(item)" style="width:24px;">
+                <td class="vsiconcheck" ng-if="id === 2" ng-show="isItemSelected(item)" style="width:24px">
                     <span class="icon icon-check"></span>
                 </td>
             </tr>
@@ -89,7 +96,7 @@
             <div class="vsoverlaytitle">
                 <span class="vsoverlaytitletext">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>
                 <button class="vsbtnsmallcross" ng-click="closeOverlay()">
-                    <span style="" class="icon vsiconsmallcross icon-cross"></span>
+                    <span class="icon vsiconsmallcross icon-cross"></span>
                 </button>
             </div>
             <div class="vsselecteditem vsselecteditemcolor" ng-click="$event.stopPropagation()"
@@ -100,10 +107,27 @@
     </script>
 
     <script type="text/ng-template" id="vstooltip.html">
-        <div class="vstooltip" opacity ng-style="{'opacity': opacity}">
-            <button class="vsbtnsmallcross" style="float:right" ng-click="closeTooltip($event)"><span
-                    class="icon vsiconsmallcross icon-cross"></span></button>
-            txt
+        <div class="vstooltip" style="margin-top:-20px;margin-left:10px" opacity ng-style="{'opacity': opacity}">
+            <button class="vsbtnsmallcross" style="float:right" ng-click="closeTooltip($event)">
+                <span class="icon vsiconsmallcross icon-cross"></span>
+            </button>
+            {{visiblePropName === null ? item : item[visiblePropName]}}
         </div>
     </script>
+
+    <script type="text/ng-template" id="vspopover.html">
+        <div class="vstooltip" style="margin-top:-20px;margin-left:28px" opacity ng-style="{'opacity': opacity}">
+            <table class="vsproperties" ng-click="closeProperties();$event.stopPropagation()">
+                <tr>
+                    <th>{{options.input.properties.propertyTitle}}</th>
+                    <th>{{options.input.properties.valueTitle}}</th>
+                </tr>
+                <tr ng-repeat="prop in options.input.properties.props">
+                    <td>{{prop.trim()}}</td>
+                    <td>{{item[prop.trim()]}}</td>
+                </tr>
+            </table>
+        </div>
+    </script>
+
 </div>
