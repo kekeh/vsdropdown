@@ -49,6 +49,21 @@ vsdropdown styles
     width: 30px;
     border: none;
     border-left: 1px solid #999;
+    padding: 0px;
+    cursor: pointer;
+    outline: 0;
+    -moz-user-select: none;
+    background: #FAFAFA;
+    background-image: -webkit-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
+    background-image: -moz-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
+    background-image: -o-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
+    background-image: -ms-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
+    background-image: linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
+}
+
+.vsdropdown .vsselbtngroup button:focus,
+.vsdropdown .vsselbtngroup button:hover {
+    background: #ADD8E6;
 }
 
 .vsdropdown .vsselectioncounttxt {
@@ -60,37 +75,23 @@ vsdropdown styles
     font-size: 10px;
 }
 
-.vsdropdown .vsbtncross {
-    float: right;
-}
-
-.vsdropdown .vsbtncross,
-.vsdropdown .vsbtnfilterclear,
-.vsdropdown .vsbtnproperties {
-    width: 21px;
-    height: 21px;
-}
-
-.vsdropdown .vsbtncross,
-.vsdropdown .vsbtnfilterclear,
-.vsdropdown .vsbtnsmallcross,
-.vsdropdown .vsbtnproperties {
-    border: 1px solid #777;
-    border-radius: 2px;
-    font-size: 0;
-}
-
-.vsdropdown button {
-    background-color: #FFF;
-    padding: 0px;
+.vsdropdown .vsiconcross,
+.vsdropdown .vsiconclear,
+.vsdropdown .vsiconproperties,
+.vsdropdown .vsiconcheck,
+.vsdropdown .vsiconoverlaycross {
     cursor: pointer;
+    font-size: 14px;
     outline: 0;
-    -moz-user-select: none;
 }
 
-.vsdropdown button:focus,
-.vsdropdown button:hover {
-    background-color: #ADD8E6;
+.vsdropdown .vsiconoverlaycross {
+    font-size: 11px;
+}
+
+.vsdropdown .icon:hover:not(.icon-check),
+.vsdropdown .icon:focus:not(.icon-check) {
+    color: #ADD8E6;
 }
 
 .vsdropdown .vsselector {
@@ -129,7 +130,6 @@ vsdropdown styles
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 14px;
     text-align: left;
     padding-right: 4px;
 }
@@ -144,15 +144,15 @@ vsdropdown styles
     padding-left: 8px;
     height: 36px;
     width: 100%;
-    font-size: 14px;
     outline: 0;
     border-radius: 2px;
 }
 
 .vsdropdown .vsfiltermatchtext {
-    padding: 0px 2px 0px 2px;
+    padding: 0px 2px;
     background-color: inherit;
     text-align: right;
+    color: #000;
 }
 
 .vsdropdown .vsiconfilterclear,
@@ -160,7 +160,6 @@ vsdropdown styles
     border: none;
     background-color: inherit;
     width: 1px;
-    font-size: 14px;
     white-space: nowrap;
     padding-right: 4px;
 }
@@ -170,26 +169,22 @@ vsdropdown styles
     padding: 2px 4px;
     margin: 2px;
     border-radius: 2px;
+    background-color: #FFF;
 }
 
 .vsdropdown .vsoverlaytitletext {
     font-size: 13px;
-    background-color: #FFF;
+    background-color: inherit;
+    color: #000;
     display: table-cell;
     vertical-align: middle;
-    width: 100%
+    width: 100%;
 }
 
-.vsdropdown .vsbtnsmallcross {
+.vsdropdown .vsiconoverlaycross {
+    background-color: inherit;
     display: table-cell;
     vertical-align: middle;
-    width: 17px;
-    height: 17px;
-    margin-left: 6px;
-}
-
-.vsdropdown .vsiconsmallcross {
-    font-size: 11px;
 }
 
 .vsdropdown .vsselecteditem {
@@ -219,14 +214,7 @@ vsdropdown styles
 }
 
 .vsdropdown .vsiconselector,
-.vsdropdown .vsiconselections,
-.vsdropdown .vsiconcheck {
-    font-size: 16px;
-}
-
-.vsdropdown .vsiconcross,
-.vsdropdown .vsiconclear,
-.vsdropdown .vsiconproperties {
+.vsdropdown .vsiconselections {
     font-size: 16px;
 }
 
@@ -235,7 +223,6 @@ vsdropdown styles
     color: #000;
     padding: 6px;
     z-index: 1003;
-    max-width: 800px;
     white-space: normal;
     font-weight: normal;
     border-radius: 4px;
@@ -261,6 +248,10 @@ vsdropdown styles
     top: 5px;
 }
 
+.vsdropdown .vstooltiptext {
+
+}
+
 .vsdropdown .vsoverlay,
 .vsdropdown .vstooltip {
     border: 1px solid #AAA;
@@ -272,22 +263,21 @@ vsdropdown styles
 
 .vsdropdown .vsproperties {
     border-collapse: collapse;
+    border-spacing: 0px;
     overflow: hidden;
-    max-width: 220px;
+    max-width: 400px;
 }
 
 .vsdropdown .vsproperties th {
     background-color: #EEE;
     text-align: center;
+    padding: 4px 22px;
+    font-weight: bold;
 }
 
 .vsdropdown .vsproperties td {
     background-color: #FAFAFA;
     text-align: justify;
-}
-
-.vsdropdown .vsproperties th,
-.vsdropdown .vsproperties td {
     padding: 4px 6px;
 }
 
@@ -296,7 +286,6 @@ vsdropdown styles
 .vsdropdown .vsoverlaytitle,
 .vsdropdown .vsselecteditem,
 .vsdropdown .vsfiltergroup,
-.vsdropdown .vsproperties,
 .vsdropdown .vsproperties th,
 .vsdropdown .vsproperties td {
     border: 1px solid #999;
@@ -372,8 +361,6 @@ vsdropdown styles
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    width: 16px;
-    height: 16px;
 }
 
 .icon-check:before {

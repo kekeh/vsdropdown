@@ -366,13 +366,13 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     scope.showOverlay = false;
                 };
 
-                scope.itemClicked = function (index) {
+                scope.itemClicked = function (index, event) {
                     var item = scope.visibleItems[index];
                     if (!scope.isItemSelected(item)) {
-                        scope.addItem(item);
+                        scope.addItem(item, event);
                     }
                     else {
-                        scope.removeItem(scope.selectedItems.indexOf(item));
+                        scope.removeItem(scope.selectedItems.indexOf(item), event);
                     }
                     if (scope.options.selection.maximum === 1) {
                         scope.showSelector = false;
@@ -382,10 +382,11 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     }
                 };
 
-                scope.addItem = function (item) {
+                scope.addItem = function (item, event) {
+                    event.stopPropagation();
                     if (scope.options.selection.maximum > 1) {
                         if (scope.selectedItems.length === scope.options.selection.maximum) {
-                            scope.removeItem(scope.selectedItems.length - 1);
+                            scope.removeItem(scope.selectedItems.length - 1, event);
                         }
                         scope.selectedItems.push(item);
                     }
@@ -395,7 +396,8 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     notifyParent(item, scope.config.OPERATION_ADD);
                 };
 
-                scope.removeItem = function (index) {
+                scope.removeItem = function (index, event) {
+                    event.stopPropagation();
                     var item = scope.selectedItems[index];
                     if (index === scope.selectedItems.length - 1 || scope.selectedItems.length === 2) {
                         scope.closeOverlay();
@@ -424,7 +426,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                             event.preventDefault();
                         }
                         if (event.which === 13 && scope.focusIdx > -1) {
-                            scope.itemClicked(scope.focusIdx);
+                            scope.itemClicked(scope.focusIdx, event);
                         }
                         else if (event.which === 38) {
                             if (scope.focusIdx === 0) {
@@ -448,6 +450,11 @@ angular.module('vsdropdown', ['vsscrollbar'])
                             scope.showSelector = false;
                         }
                     }
+                };
+
+                scope.clearFilter = function () {
+                    scope.filterText = '';
+                    scope.listFocusEvent();
                 };
 
                 var filterWatch = scope.$watch('filterText', filterWatchFn);

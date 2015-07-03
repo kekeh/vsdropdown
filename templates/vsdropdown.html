@@ -42,10 +42,9 @@
                         options.filter.noHitsTxt}}
                     </div>
                 </td>
-                <td class="vsiconfilterclear" ng-show="filterText.length > 0">
-                    <button class="vsbtnfilterclear" ng-click="filterText='';listFocusEvent()">
-                        <span class="icon vsiconclear icon-clear"></span>
-                    </button>
+                <td class="vsiconfilterclear" style="width:24px" ng-show="filterText.length > 0">
+                    <span class="icon vsiconclear icon-clear" ng-click="clearFilter()"
+                          ng-keydown="$event.which === 13 ? clearFilter() : null" tabindex="0"></span>
                 </td>
             </tr>
         </table>
@@ -58,7 +57,7 @@
              tabindex="0">
             <div class="vsitem"
                  ng-repeat="item in visibleItems track by $index"
-                 ng-click="itemClicked($index)"
+                 ng-click="itemClicked($index, $event)"
                  ng-class="{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}">
                 <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=2"></div>
             </div>
@@ -68,22 +67,20 @@
     <script type="text/ng-template" id="vsitemcontent.html">
         <table class="vsitemcontent">
             <tr>
-                <td style="width:24px" ng-if="options.input.isObject && options.input.properties.enabled">
-                    <button class="vsbtnproperties" popover-window ng-mouseleave="closeProperties()"
-                            ng-click="showProperties($event)">
-                        <span class="icon vsiconproperties"
-                              ng-class="popover!==null ? 'icon-down' : 'icon-right'"></span>
-                    </button>
+                <td style="width:18px" ng-if="options.input.isObject && options.input.properties.enabled">
+                    <span class="icon vsiconproperties" popover-window
+                          ng-click="showProperties($event)"
+                          ng-keydown="$event.which === 13 ? showProperties($event) : null"
+                          ng-class="popover!==null ? 'icon-down' : 'icon-right'" tabindex="0"></span>
                 </td>
                 <td class="vsitemtext" tooltip-window="{{visiblePropName === null ? item : item[visiblePropName]}}">
                     {{visiblePropName === null ? item : item[visiblePropName]}}
                 </td>
-                <td ng-if="id === 1" style="width:24px;">
-                    <button class="vsbtncross" ng-click="removeItem($index);$event.stopPropagation()">
-                        <span class="icon vsiconcross icon-cross"></span>
-                    </button>
+                <td ng-if="id === 1" style="width:16px">
+                    <span class="icon vsiconcross icon-cross" tabindex="0" ng-click="removeItem($index, $event)"
+                          ng-keydown="$event.which === 13 ? removeItem($index, $event) : null"></span>
                 </td>
-                <td class="vsiconcheck" ng-if="id === 2" ng-show="isItemSelected(item)" style="width:24px">
+                <td class="vsiconcheck" ng-if="id === 2" ng-show="isItemSelected(item)" style="width:22px">
                     <span class="icon icon-check"></span>
                 </td>
             </tr>
@@ -95,9 +92,9 @@
              ng-mouseleave="closeOverlay()">
             <div class="vsoverlaytitle">
                 <span class="vsoverlaytitletext">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>
-                <button class="vsbtnsmallcross" ng-click="closeOverlay()">
-                    <span class="icon vsiconsmallcross icon-cross"></span>
-                </button>
+                <span class="icon vsiconoverlaycross icon-cross"
+                      ng-click="closeOverlay()"
+                      ng-keydown="$event.which === 13 ? closeOverlay() : null" tabindex="0"></span>
             </div>
             <div class="vsselecteditem vsselecteditemcolor" ng-click="$event.stopPropagation()"
                  ng-repeat="item in selectedItems track by $index">
@@ -107,16 +104,15 @@
     </script>
 
     <script type="text/ng-template" id="vstooltip.html">
-        <div class="vstooltip" style="margin-top:-20px;margin-left:10px" opacity ng-style="{'opacity': opacity}">
-            <button class="vsbtnsmallcross" style="float:right" ng-click="closeTooltip($event)">
-                <span class="icon vsiconsmallcross icon-cross"></span>
-            </button>
-            {{visiblePropName === null ? item : item[visiblePropName]}}
+        <div class="vstooltip" style="margin-top:-20px;margin-left:10px" opacity ng-style="{'opacity': opacity}"
+             ng-click="closeTooltip($event)"
+             ng-keydown="$event.which === 13 ? closeTooltip($event) : null" tabindex="0">
+            <span class="vstooltiptext">{{visiblePropName === null ? item : item[visiblePropName]}}</span>
         </div>
     </script>
 
     <script type="text/ng-template" id="vspopover.html">
-        <div class="vstooltip" style="margin-top:-20px;margin-left:28px" opacity ng-style="{'opacity': opacity}">
+        <div class="vstooltip" style="margin-top:-24px;margin-left:24px" opacity ng-style="{'opacity': opacity}">
             <table class="vsproperties" ng-click="closeProperties();$event.stopPropagation()">
                 <tr>
                     <th>{{options.input.properties.propertyTitle}}</th>

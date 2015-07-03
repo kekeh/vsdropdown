@@ -88,7 +88,7 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
             visiblePropName: 'name',
             properties: {
                 enabled: true,
-                props: ['id', 'active', 'number'],
+                props: ['id', 'name', 'active', 'number'],
                 propertyTitle: 'Property',
                 valueTitle: 'Value'
             }
@@ -102,7 +102,7 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
             maximum: 1
         },
         visibleItemCount: 4,
-        showTooltip: true,
+        showTooltip: false,
         fadeInEffects: true,
         itemSelectCb: onSelectItem
     };
@@ -110,18 +110,10 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
     // generate test items to the vsdropdown
     function generateItems() {
         for (var i = 0; i < generatedCount; i++) {
-            items.push((i % 4 === 0) ?
-            {
-                id: (i + 1),
-                name: 'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem',
-                active: 'yes',
-                number: Math.floor((Math.random() * 100000000) + 1000)
-            }
-                :
-            {
+            items.push({
                 id: (i + 1),
                 name: 'Item #' + (i + 1),
-                active: 'no',
+                active: (i % 4 === 0) ? 'no' : 'yes',
                 number: Math.floor((Math.random() * 100000000) + 1000)
             });
         }
