@@ -34,7 +34,7 @@ sampleapp.controller('sampleappctrl1', function ($scope) {
         filter: {
             enabled: true,
             filterPlaceholderTxt: 'Type filter...',
-            noHitsTxt: 'No hit(s)'
+            noHitsTxt: 'No hits'
         },
         selection: {
             maximum: 20,
@@ -65,7 +65,7 @@ sampleapp.controller('sampleappctrl1', function ($scope) {
  * @name sampleappctrl2
  * @description Controller which uses the vsdropdown component. Single selection. Object array as input.
  */
-sampleapp.controller('sampleappctrl2', function ($scope) {
+sampleapp.controller('sampleappctrl2', function ($scope, $http) {
 
     function onSelectItem(items, selection, operation) {
         if (selection !== undefined) {
@@ -73,22 +73,27 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
         }
     }
 
-    var items = [];
     var selectedItems = [];
 
-    var generatedCount = 1000;
-    generateItems();
+    // Read the items from the file
+    function getDataFromFile() {
+        setTimeout(function () {
+            $http.get('data/items.json').success(function (data) {
+                $scope.opt.items = data;
+            });
+        }, 10);
+    }
 
     // Configuration of the vsdropdown
     $scope.opt = {
-        items: items,
+        items: [],
         selectedItems: selectedItems,
         input: {
             isObject: true,
             visiblePropName: 'name',
             properties: {
                 enabled: true,
-                props: ['id', 'name', 'active', 'number'],
+                props: ['id', 'active', 'name', 'date'],
                 propertyTitle: 'Property',
                 valueTitle: 'Value'
             }
@@ -96,7 +101,7 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
         filter: {
             enabled: true,
             filterPlaceholderTxt: 'Type filter...',
-            noHitsTxt: 'No hit(s)'
+            noHitsTxt: 'No hits'
         },
         selection: {
             maximum: 1
@@ -107,16 +112,6 @@ sampleapp.controller('sampleappctrl2', function ($scope) {
         itemSelectCb: onSelectItem
     };
 
-    // generate test items to the vsdropdown
-    function generateItems() {
-        for (var i = 0; i < generatedCount; i++) {
-            items.push({
-                id: (i + 1),
-                name: 'Item #' + (i + 1),
-                active: (i % 4 === 0) ? 'no' : 'yes',
-                number: Math.floor((Math.random() * 100000000) + 1000)
-            });
-        }
-    }
+    getDataFromFile();
 
 });

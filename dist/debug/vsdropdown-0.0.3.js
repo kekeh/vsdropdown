@@ -51,7 +51,9 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                           ng-blur=\"focusIdx=-1\"/>\n" +
         "                </td>\n" +
         "                <td class=\"vsfiltermatch\">\n" +
-        "                    <div class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</div>\n" +
+        "                    <div class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount :\n" +
+        "                        options.filter.noHitsTxt}}\n" +
+        "                    </div>\n" +
         "                </td>\n" +
         "                <td class=\"vsiconfilterclear\" style=\"width:24px\" ng-show=\"filterText.length > 0\">\n" +
         "                    <span class=\"icon vsiconclear icon-clear\" ng-click=\"clearFilter()\"\n" +
@@ -488,7 +490,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
  * @name vsdropdown
  * @description vsdropdown is main directive of the component.
  */
-    .directive('vsdropdown', ['vsscrollbarEvent', function (vsscrollbarEvent) {
+    .directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeout, vsscrollbarEvent) {
         return {
             restrict: 'EA',
             templateUrl: 'templates/vsdropdown.html',
@@ -629,6 +631,16 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     }
                 }
 
+                var itemsWatch = scope.$watch('options.items.length', itemsWatchFn);
+
+                function itemsWatchFn(newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        $timeout(function () {
+                            vsscrollbarEvent.filter(scope, '');
+                        });
+                    }
+                }
+
                 function notifyParent(item, oper) {
                     if (!angular.isUndefined(scope.options.itemSelectCb)) {
                         scope.options.itemSelectCb(scope.selectedItems, item, oper);
@@ -646,6 +658,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 scope.$on('$destroy', function () {
                     filterWatch();
+                    itemsWatch();
                 });
 
                 init();

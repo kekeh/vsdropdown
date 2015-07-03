@@ -82,7 +82,7 @@
     font-size: 11px
 }
 
-.vsdropdown .icon:focus:not(.icon-check), .vsdropdown .icon:hover:not(.icon-check) {
+.vsdropdown .icon:focus:not(.icon-check):not(.icon-up):not(.icon-down), .vsdropdown .icon:hover:not(.icon-check):not(.icon-up):not(.icon-down) {
     color: #ADD8E6
 }
 

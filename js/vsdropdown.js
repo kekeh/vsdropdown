@@ -324,7 +324,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
  * @name vsdropdown
  * @description vsdropdown is main directive of the component.
  */
-    .directive('vsdropdown', ['vsscrollbarEvent', function (vsscrollbarEvent) {
+    .directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeout, vsscrollbarEvent) {
         return {
             restrict: 'EA',
             templateUrl: 'templates/vsdropdown.html',
@@ -465,6 +465,16 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     }
                 }
 
+                var itemsWatch = scope.$watch('options.items.length', itemsWatchFn);
+
+                function itemsWatchFn(newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        $timeout(function () {
+                            vsscrollbarEvent.filter(scope, '');
+                        });
+                    }
+                }
+
                 function notifyParent(item, oper) {
                     if (!angular.isUndefined(scope.options.itemSelectCb)) {
                         scope.options.itemSelectCb(scope.selectedItems, item, oper);
@@ -482,6 +492,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 scope.$on('$destroy', function () {
                     filterWatch();
+                    itemsWatch();
                 });
 
                 init();
