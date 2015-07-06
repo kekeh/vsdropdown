@@ -5,7 +5,7 @@
  *  Author: kekeh
  *  Homepage: http://kekeh.github.io/vsdropdown
  *  License: MIT
- *  Date: 2015-07-03
+ *  Date: 2015-07-06
  */
 angular.module('template-vsdropdown-0.0.3.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
 
@@ -51,9 +51,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                           ng-blur=\"focusIdx=-1\"/>\n" +
         "                </td>\n" +
         "                <td class=\"vsfiltermatch\">\n" +
-        "                    <div class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount :\n" +
-        "                        options.filter.noHitsTxt}}\n" +
-        "                    </div>\n" +
+        "                    <span class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</span>\n" +
         "                </td>\n" +
         "                <td class=\"vsiconfilterclear\" style=\"width:24px\" ng-show=\"filterText.length > 0\">\n" +
         "                    <span class=\"icon vsiconclear icon-clear\" ng-click=\"clearFilter()\"\n" +
@@ -86,8 +84,8 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                          ng-keydown=\"$event.which === 13 ? showProperties($event) : null\"\n" +
         "                          ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\" tabindex=\"0\"></span>\n" +
         "                </td>\n" +
-        "                <td class=\"vsitemtext\" tooltip-window=\"{{visiblePropName === null ? item : item[visiblePropName]}}\">\n" +
-        "                    {{visiblePropName === null ? item : item[visiblePropName]}}\n" +
+        "                <td class=\"vsitemtext\" tooltip-window>\n" +
+        "                    {{getPropertyValue(visiblePropName, item)}}\n" +
         "                </td>\n" +
         "                <td ng-if=\"id === 1\" style=\"width:16px\">\n" +
         "                    <span class=\"icon vsiconcross icon-cross\" tabindex=\"0\" ng-click=\"removeItem($index, $event)\"\n" +
@@ -120,7 +118,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:10px\" opacity ng-style=\"{'opacity': opacity}\"\n" +
         "             ng-click=\"closeTooltip($event)\"\n" +
         "             ng-keydown=\"$event.which === 13 ? closeTooltip($event) : null\" tabindex=\"0\">\n" +
-        "            <span class=\"vstooltiptext\">{{visiblePropName === null ? item : item[visiblePropName]}}</span>\n" +
+        "            <span class=\"vstooltiptext\">{{getPropertyValue(visiblePropName, item)}}</span>\n" +
         "        </div>\n" +
         "    </script>\n" +
         "\n" +
@@ -132,8 +130,8 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                    <th>{{options.input.properties.valueTitle}}</th>\n" +
         "                </tr>\n" +
         "                <tr ng-repeat=\"prop in options.input.properties.props\">\n" +
-        "                    <td>{{prop.trim()}}</td>\n" +
-        "                    <td>{{item[prop.trim()]}}</td>\n" +
+        "                    <td>{{prop}}</td>\n" +
+        "                    <td>{{getPropertyValue(prop, item)}}</td>\n" +
         "                </tr>\n" +
         "            </table>\n" +
         "        </div>\n" +
@@ -481,9 +479,24 @@ angular.module('vsdropdown', ['vsscrollbar'])
         LIST_FOCUS_EVENT: 'vsdropdown.listFocusEvent',
         OPERATION_ADD: '+',
         OPERATION_DEL: '-',
+        DOT_SEPARATOR: '.',
         TOOLTIP_OPEN_DELAY: 900,
         FILTERING_BEGIN_DELAY: 500
     })
+
+/**
+ * @ngdoc object
+ * @name vsdropdownService
+ * @description vsdropdownService contain common code of the vsdropdown.
+ */
+    .service('vsdropdownService', ['$http', '$templateCache', function ($http, $templateCache) {
+        this.getTemplate = function (name) {
+            var promise = $http.get(name, {cache: $templateCache}).success(function (response) {
+                return response.data;
+            });
+            return promise;
+        };
+    }])
 
 /**
  * @ngdoc object
@@ -576,6 +589,17 @@ angular.module('vsdropdown', ['vsscrollbar'])
                     return scope.selectedItems.indexOf(item) !== -1;
                 };
 
+                scope.getPropertyValue = function (prop, item) {
+                    if (prop === null) {
+                        return item;
+                    }
+                    else if (prop.indexOf(scope.config.DOT_SEPARATOR) === -1) {
+                        return item[prop];
+                    }
+
+                    return processNestedObject(prop, item);
+                };
+
                 scope.onScrollChange = function (topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems) {
                     scope.topIndex = topIndex;
                     scope.filteredItemCount = filteredItemCount;
@@ -627,7 +651,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 function filterWatchFn(newVal, oldVal) {
                     if (newVal !== oldVal) {
-                        vsscrollbarEvent.filter(scope, newVal);
+                        filter();
                     }
                 }
 
@@ -636,9 +660,29 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 function itemsWatchFn(newVal, oldVal) {
                     if (newVal !== oldVal) {
                         $timeout(function () {
-                            vsscrollbarEvent.filter(scope, '');
+                            filter();
                         });
                     }
+                }
+
+                function filter() {
+                    if (scope.options.input.isObject) {
+                        var fltObj = {};
+                        vsscrollbarEvent.filter(scope, createFilterObj(fltObj));
+                    }
+                    else {
+                        vsscrollbarEvent.filter(scope, scope.filterText);
+                    }
+                }
+
+                function createFilterObj(fltObj) {
+                    var parts = scope.visiblePropName.split(scope.config.DOT_SEPARATOR);
+                    var last = parts.pop();
+                    for (var i = 0, tmp = fltObj; i < parts.length; i++) {
+                        tmp = tmp[parts[i]] = {};
+                    }
+                    tmp[last] = scope.filterText;
+                    return fltObj;
                 }
 
                 function notifyParent(item, oper) {
@@ -649,6 +693,15 @@ angular.module('vsdropdown', ['vsscrollbar'])
 
                 function isFocusBottom() {
                     return scope.focusIdx === scope.options.visibleItemCount - 1 || scope.focusIdx === scope.filteredItemCount - 1;
+                }
+
+                function processNestedObject(prop, item) {
+                    var parts = prop.split(scope.config.DOT_SEPARATOR);
+                    var tempVal = angular.copy(item);
+                    angular.forEach(parts, function (p) {
+                        tempVal = tempVal[p];
+                    });
+                    return tempVal;
                 }
 
                 function init() {
@@ -699,7 +752,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
  * @name tooltipWindow
  * @description tooltipWindow directive implements overlay window to long values in the columns.
  */
-    .directive('tooltipWindow', ['$compile', '$timeout', '$http', '$templateCache', function ($compile, $timeout, $http, $templateCache) {
+    .directive('tooltipWindow', ['$compile', '$timeout', 'vsdropdownService', function ($compile, $timeout, vsdropdownService) {
         return {
             restrict: 'A',
             scope: false,
@@ -716,8 +769,8 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 function onMouseEnter() {
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
-                            $http.get('vstooltip.html', {cache: $templateCache}).success(function (tpl) {
-                                tooltip = angular.element(tpl);
+                            vsdropdownService.getTemplate('vstooltip.html').then(function (tpl) {
+                                tooltip = angular.element(tpl.data);
                                 element.append($compile(tooltip)(scope));
                             });
                         }, scope.config.TOOLTIP_OPEN_DELAY);
@@ -769,7 +822,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
  * @name popoverWindow
  * @description popoverWindow directive implements popover window which show all properties of the item.
  */
-    .directive('popoverWindow', ['$compile', '$http', '$templateCache', function ($compile, $http, $templateCache) {
+    .directive('popoverWindow', ['$compile', 'vsdropdownService', function ($compile, vsdropdownService) {
         return {
             restrict: 'A',
             scope: false,
@@ -780,8 +833,8 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 scope.showProperties = function (event) {
                     event.stopPropagation();
                     if (angular.equals(scope.popover, null)) {
-                        $http.get('vspopover.html', {cache: $templateCache}).success(function (tpl) {
-                            scope.popover = angular.element(tpl);
+                        vsdropdownService.getTemplate('vspopover.html').then(function (tpl) {
+                            scope.popover = angular.element(tpl.data);
                             element.append($compile(scope.popover)(scope));
                         });
                     }

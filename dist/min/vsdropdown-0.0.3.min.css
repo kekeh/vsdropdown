@@ -168,6 +168,7 @@
 
 .vsdropdown .vsoverlaytitletext {
     font-size: 13px;
+    font-weight: 700;
     background-color: inherit;
     color: #000;
     display: table-cell;

@@ -38,9 +38,7 @@
                            ng-blur="focusIdx=-1"/>
                 </td>
                 <td class="vsfiltermatch">
-                    <div class="vsfiltermatchtext">{{filteredItemCount > 0 ? filteredItemCount :
-                        options.filter.noHitsTxt}}
-                    </div>
+                    <span class="vsfiltermatchtext">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</span>
                 </td>
                 <td class="vsiconfilterclear" style="width:24px" ng-show="filterText.length > 0">
                     <span class="icon vsiconclear icon-clear" ng-click="clearFilter()"
@@ -73,8 +71,8 @@
                           ng-keydown="$event.which === 13 ? showProperties($event) : null"
                           ng-class="popover!==null ? 'icon-down' : 'icon-right'" tabindex="0"></span>
                 </td>
-                <td class="vsitemtext" tooltip-window="{{visiblePropName === null ? item : item[visiblePropName]}}">
-                    {{visiblePropName === null ? item : item[visiblePropName]}}
+                <td class="vsitemtext" tooltip-window>
+                    {{getPropertyValue(visiblePropName, item)}}
                 </td>
                 <td ng-if="id === 1" style="width:16px">
                     <span class="icon vsiconcross icon-cross" tabindex="0" ng-click="removeItem($index, $event)"
@@ -107,7 +105,7 @@
         <div class="vstooltip" style="margin-top:-20px;margin-left:10px" opacity ng-style="{'opacity': opacity}"
              ng-click="closeTooltip($event)"
              ng-keydown="$event.which === 13 ? closeTooltip($event) : null" tabindex="0">
-            <span class="vstooltiptext">{{visiblePropName === null ? item : item[visiblePropName]}}</span>
+            <span class="vstooltiptext">{{getPropertyValue(visiblePropName, item)}}</span>
         </div>
     </script>
 
@@ -119,8 +117,8 @@
                     <th>{{options.input.properties.valueTitle}}</th>
                 </tr>
                 <tr ng-repeat="prop in options.input.properties.props">
-                    <td>{{prop.trim()}}</td>
-                    <td>{{item[prop.trim()]}}</td>
+                    <td>{{prop}}</td>
+                    <td>{{getPropertyValue(prop, item)}}</td>
                 </tr>
             </table>
         </div>

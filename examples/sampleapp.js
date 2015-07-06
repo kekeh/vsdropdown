@@ -93,7 +93,7 @@ sampleapp.controller('sampleappctrl2', function ($scope, $http) {
             visiblePropName: 'name',
             properties: {
                 enabled: true,
-                props: ['id', 'active', 'name', 'date'],
+                props: ['id', 'active', 'date', 'car.price'],
                 propertyTitle: 'Property',
                 valueTitle: 'Value'
             }
