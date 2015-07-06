@@ -89,8 +89,8 @@ vsdropdown styles
     font-size: 11px;
 }
 
-.vsdropdown .icon:hover:not(.icon-check):not(.icon-up):not(.icon-down),
-.vsdropdown .icon:focus:not(.icon-check):not(.icon-up):not(.icon-down) {
+.vsdropdown .icon:hover:not(.icon-check):not(.icon-up):not(.icon-down):not(.icon-selections),
+.vsdropdown .icon:focus:not(.icon-check):not(.icon-up):not(.icon-down):not(.icon-selections) {
     color: #ADD8E6;
 }
 
