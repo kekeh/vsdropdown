@@ -10,30 +10,35 @@ var sampleapp = angular.module('sampleapp', ['vsdropdown']);
  * @name sampleappctrl
  * @description Controller which uses the vsdropdown component. Multiple selection. String array as input.
  */
-sampleapp.controller('sampleappctrl', function ($scope) {
+sampleapp.controller('sampleappctrl', function ($scope, $http) {
 
-    var items = [];
+    function onSelectItem(items, selection, operation) {
+        if (selection !== undefined) {
+            console.log('PARENT - onSelectItem(): Selected item(s): ', items, ' - Selection: ', selection, ' - Operation: ', operation);
+        }
+    }
+
     var selectedItems = [];
 
-    $scope.$watch('opt.selectedItems', function (newVal, oldVal) {
-        if (newVal !== oldVal) {
-            console.log('PARENT - watch: ', newVal);
-        }
-    }, true);
-
-    var generatedCount = 100000;
-    generateItems();
+    // Read the items from the file
+    function getDataFromFile() {
+        setTimeout(function () {
+            $http.get('demo/data/items.json').success(function (data) {
+                $scope.opt.items = data;
+            });
+        }, 10);
+    }
 
     // Configuration of the vsdropdown
     $scope.opt = {
-        items: items,
-        selectedItems: selectedItems,
+        items: [],
+        selectedItems: [],
         input: {
             isObject: true,
             visiblePropName: 'name',
             properties: {
                 enabled: true,
-                props: ['id', 'active', 'number'],
+                props: ['id', 'active', 'date', 'car.price'],
                 propertyTitle: 'Property',
                 valueTitle: 'Value'
             }
@@ -41,7 +46,7 @@ sampleapp.controller('sampleappctrl', function ($scope) {
         filter: {
             enabled: true,
             filterPlaceholderTxt: 'Type filter...',
-            noHitsTxt: 'No hit(s)'
+            noHitsTxt: 'No hits'
         },
         selection: {
             maximum: 20,
@@ -49,30 +54,11 @@ sampleapp.controller('sampleappctrl', function ($scope) {
             showCount: true
         },
         visibleItemCount: 4,
-        showTooltip: true,
-        fadeInEffects: true
+        showTooltip: false,
+        fadeInEffects: true,
+        itemSelectCb: onSelectItem
     };
 
-    // generate test items to the vsdropdown
-    function generateItems() {
-        for (var i = 0; i < generatedCount; i++) {
-            items.push((i % 4 === 0) ?
-            {
-                id: (i + 1),
-                name: 'Item #' + (i + 1) + ' with lorem ipsum dolor sit amet, consectetuer adipiscing elit sed posuere interdum sem',
-                active: 'yes',
-                number: Math.floor((Math.random() * 100000000) + 1000)
-            }
-                :
-            {
-                id: (i + 1),
-                name: 'Item #' + (i + 1),
-                active: 'no',
-                number: Math.floor((Math.random() * 100000000) + 1000)
-            });
-        }
-
-        selectedItems.push(items[99]);
-    }
+    getDataFromFile();
 
 });
