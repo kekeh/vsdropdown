@@ -60,7 +60,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "            </tr>\n" +
         "        </table>\n" +
         "\n" +
-        "        <div vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\"\n" +
+        "        <div class=\"vsscrollbar\" vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\"\n" +
         "             ng-keydown=\"keyDown($event)\" ng-focus=\"focus()\" ng-blur=\"blur()\" list-focus\n" +
         "             height=\"{{options.visibleItemCount*config.ITEM_HEIGHT-1}}\"\n" +
         "             on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\"\n" +

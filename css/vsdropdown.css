@@ -89,9 +89,12 @@ vsdropdown styles
     font-size: 11px;
 }
 
-.vsdropdown .icon:hover:not(.icon-check):not(.icon-up):not(.icon-down):not(.icon-selections),
+.vsdropdown .icon:hover:not(.icon-check):not(.icon-up):not(.icon-down):not(.icon-selections) {
+    color: #FF625B;
+}
+
 .vsdropdown .icon:focus:not(.icon-check):not(.icon-up):not(.icon-down):not(.icon-selections) {
-    color: #ADD8E6;
+    color: #5FB4E6;
 }
 
 .vsdropdown .vsselector {
@@ -265,8 +268,7 @@ vsdropdown styles
 .vsdropdown .vsproperties {
     border-collapse: collapse;
     border-spacing: 0px;
-    overflow: hidden;
-    max-width: 400px;
+    max-width: 350px;
 }
 
 .vsdropdown .vsproperties th {
@@ -279,6 +281,8 @@ vsdropdown styles
 .vsdropdown .vsproperties td {
     background-color: #FAFAFA;
     text-align: justify;
+    word-wrap: break-word;
+    max-width: 250px;
     padding: 4px 6px;
 }
 
@@ -317,8 +321,7 @@ vsdropdown styles
 }
 
 .vsdropdown .vsselecteditemcolor {
-    background-color: #FAFAFA;
-    border: 1px solid #777;
+    background-color: #EEE;
 }
 
 .vsdropdown .vsfocuseditemcolor {
@@ -335,6 +338,10 @@ vsdropdown styles
     -moz-box-shadow: 0 0 5px #FF0000 inset;
     -webkit-box-shadow: 0 0 5px #FF0000 inset;
     box-shadow: 0 0 5px #FF0000 inset;
+}
+
+.vsdropdown .vsscrollbar:focus {
+    outline: 1px solid #98FEFF;
 }
 
 .vsdropdown input[type=text]::-ms-clear {
