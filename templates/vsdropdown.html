@@ -49,7 +49,7 @@
 
         <div class="vsscrollbar" vsscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}"
              ng-keydown="keyDown($event)" ng-focus="focus()" ng-blur="blur()" list-focus
-             height="{{options.visibleItemCount*config.ITEM_HEIGHT-1}}"
+             height="{{options.visibleItemCount*config.ITEM_HEIGHT+1}}"
              on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)"
              on-focus-scrollbox-fn="onFocusScrollbox(focused)"
              tabindex="0">

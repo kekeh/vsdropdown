@@ -311,7 +311,7 @@ angular.module('vsscrollbar', [])
  */
 angular.module('vsdropdown', ['vsscrollbar'])
     .constant('vsdropdownConfig', {
-        ITEM_HEIGHT: 37,
+        ITEM_HEIGHT: 35,
         LIST_FOCUS_EVENT: 'vsdropdown.listFocusEvent',
         OPERATION_ADD: '+',
         OPERATION_DEL: '-',

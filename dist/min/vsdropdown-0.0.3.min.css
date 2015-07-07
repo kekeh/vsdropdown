@@ -18,6 +18,10 @@
     font-size: 14px
 }
 
+.vsdropdown .vsfiltergroup, .vsdropdown .vsoverlay .vsselecteditem:last-child {
+    margin-bottom: 2px
+}
+
 .vsdropdown .vsselectiongroup {
     position: relative;
     display: table;
@@ -117,16 +121,12 @@
     display: table
 }
 
-.vsdropdown .vsitem:not(last-child) {
-    margin-bottom: 1px
+.vsdropdown .vsitem:not(:first-child) {
+    margin-top: -1px
 }
 
 .vsdropdown .vsoverlay .vsselecteditem, .vsdropdown .vsselection .vsselecteditem {
     margin: 2px
-}
-
-.vsdropdown .vsfiltergroup, .vsdropdown .vsoverlay .vsselecteditem:last-child {
-    margin-bottom: 2px
 }
 
 .vsdropdown .vsitemtext {
@@ -270,8 +270,18 @@
     color: #3A87AD
 }
 
-.vsdropdown .vsfiltergroup, .vsdropdown .vsitem, .vsdropdown .vsselecteditem {
+.vsdropdown .vsfiltergroup, .vsdropdown .vsselecteditem {
     border-radius: 2px
+}
+
+.vsdropdown .vsitem:first-child {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px
+}
+
+.vsdropdown .vsitem:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px
 }
 
 .vsdropdown table, .vsdropdown table td, .vsdropdown table th, .vsdropdown table tr {
@@ -283,11 +293,11 @@
 }
 
 .vsdropdown .vsselecteditemcolor {
-    background-color: #EEE
+    background-color: #E8EEEB
 }
 
 .vsdropdown .vsfocuseditemcolor {
-    background-color: #98FEFF
+    background-color: #CBFFFF
 }
 
 .vsdropdown .vshitsfilter {

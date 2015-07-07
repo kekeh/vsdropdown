@@ -125,8 +125,8 @@ vsdropdown styles
     display: table;
 }
 
-.vsdropdown .vsitem:not(last-child) {
-    margin-bottom: 1px;
+.vsdropdown .vsitem:not(:first-child) {
+    margin-top: -1px;
 }
 
 .vsdropdown .vsitemtext {
@@ -303,10 +303,19 @@ vsdropdown styles
     color: #3A87AD;
 }
 
-.vsdropdown .vsitem,
 .vsdropdown .vsselecteditem,
 .vsdropdown .vsfiltergroup {
     border-radius: 2px;
+}
+
+.vsdropdown .vsitem:first-child {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.vsdropdown .vsitem:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 
 .vsdropdown table,
@@ -321,11 +330,11 @@ vsdropdown styles
 }
 
 .vsdropdown .vsselecteditemcolor {
-    background-color: #EEE;
+    background-color: #E8EEEB;
 }
 
 .vsdropdown .vsfocuseditemcolor {
-    background-color: #98FEFF;
+    background-color: #CBFFFF;
 }
 
 .vsdropdown .vshitsfilter {
