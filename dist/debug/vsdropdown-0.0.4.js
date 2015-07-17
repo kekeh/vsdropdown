@@ -1,13 +1,13 @@
 /* 
  *  Name: vsdropdown
  *  Description: Virtual scroll dropdown - AngularJS reusable UI component
- *  Version: 0.0.3
+ *  Version: 0.0.4
  *  Author: kekeh
  *  Homepage: http://kekeh.github.io/vsdropdown
  *  License: MIT
- *  Date: 2015-07-07
+ *  Date: 2015-07-17
  */
-angular.module('template-vsdropdown-0.0.3.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
+angular.module('template-vsdropdown-0.0.4.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
 
 angular.module("templates/vsdropdown.html", []).run(["$templateCache", function ($templateCache) {
     $templateCache.put("templates/vsdropdown.html",
@@ -15,15 +15,14 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "     ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\">\n" +
         "    <div class=\"vsselectiongroup\">\n" +
         "\n" +
-        "        <div ng-if=\"options.selection.maximum > 1\" ng-include=\"'vsoverlay.html'\"></div>  \n" +
+        "        <div ng-if=\"options.selection.maximum > 1\" ng-include=\"'dropdownoverlay.html'\"></div>\n" +
         "        \n" +
-        "        <span class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\"\n" +
-        "              ng-click=\"selector()\">\n" +
+        "        <div class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\" ng-click=\"selector()\">\n" +
         "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index === 0\" ng-click=\"$event.stopPropagation()\"\n" +
         "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
+        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
         "            </div>\n" +
-        "        </span>\n" +
+        "        </div>\n" +
         "        \n" +
         "        <span class=\"vsselbtngroup\">\n" +
         "            <button class=\"vsbtnselections\" ng-if=\"selectedItems.length > 1\" ng-click=\"openOverlay()\">\n" +
@@ -70,12 +69,12 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "                 ng-repeat=\"item in visibleItems track by $index\"\n" +
         "                 ng-click=\"itemClicked($index, $event)\"\n" +
         "                 ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=2\"></div>\n" +
+        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=2\"></div>\n" +
         "            </div>\n" +
         "        </div>\n" +
         "    </div>\n" +
         "\n" +
-        "    <script type=\"text/ng-template\" id=\"vsitemcontent.html\">\n" +
+        "    <script type=\"text/ng-template\" id=\"dropdownitemcontent.html\">\n" +
         "        <table class=\"vsitemcontent\">\n" +
         "            <tr>\n" +
         "                <td style=\"width:18px\" ng-if=\"options.input.isObject && options.input.properties.enabled\">\n" +
@@ -98,7 +97,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "        </table>\n" +
         "    </script>\n" +
         "\n" +
-        "    <script type=\"text/ng-template\" id=\"vsoverlay.html\">\n" +
+        "    <script type=\"text/ng-template\" id=\"dropdownoverlay.html\">\n" +
         "        <div class=\"vsoverlay\" opacity ng-style=\"{'opacity': opacity}\" ng-if=\"showOverlay && selectedItems.length > 1\"\n" +
         "             ng-mouseleave=\"closeOverlay()\">\n" +
         "            <div class=\"vsoverlaytitle\">\n" +
@@ -109,12 +108,12 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "            </div>\n" +
         "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\"\n" +
         "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'vsitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
+        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
         "            </div>\n" +
         "        </div>\n" +
         "    </script>\n" +
         "\n" +
-        "    <script type=\"text/ng-template\" id=\"vstooltip.html\">\n" +
+        "    <script type=\"text/ng-template\" id=\"dropdowntooltip.html\">\n" +
         "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:10px\" opacity ng-style=\"{'opacity': opacity}\"\n" +
         "             ng-click=\"closeTooltip($event)\"\n" +
         "             ng-keydown=\"$event.which === 13 ? closeTooltip($event) : null\" tabindex=\"0\">\n" +
@@ -122,7 +121,7 @@ angular.module("templates/vsdropdown.html", []).run(["$templateCache", function 
         "        </div>\n" +
         "    </script>\n" +
         "\n" +
-        "    <script type=\"text/ng-template\" id=\"vspopover.html\">\n" +
+        "    <script type=\"text/ng-template\" id=\"dropdownpopover.html\">\n" +
         "        <div class=\"vstooltip\" style=\"margin-top:-24px;margin-left:24px\" opacity ng-style=\"{'opacity': opacity}\">\n" +
         "            <table class=\"vsproperties\" ng-click=\"closeProperties();$event.stopPropagation()\">\n" +
         "                <tr>\n" +
@@ -162,7 +161,7 @@ angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function
         "");
 }]);
 
-angular.module('vsscrollbar', ["template-vsdropdown-0.0.3.html"])
+angular.module('vsscrollbar', ["template-vsdropdown-0.0.4.html"])
     .constant('vsscrollbarConfig', {
         ITEMS_IN_PAGE: 6,
         SCROLLBAR_HEIGHT: 0,
@@ -769,7 +768,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 function onMouseEnter() {
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
-                            vsdropdownService.getTemplate('vstooltip.html').then(function (tpl) {
+                            vsdropdownService.getTemplate('dropdowntooltip.html').then(function (tpl) {
                                 tooltip = angular.element(tpl.data);
                                 element.append($compile(tooltip)(scope));
                             });
@@ -833,7 +832,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 scope.showProperties = function (event) {
                     event.stopPropagation();
                     if (angular.equals(scope.popover, null)) {
-                        vsdropdownService.getTemplate('vspopover.html').then(function (tpl) {
+                        vsdropdownService.getTemplate('dropdownpopover.html').then(function (tpl) {
                             scope.popover = angular.element(tpl.data);
                             element.append($compile(scope.popover)(scope));
                         });

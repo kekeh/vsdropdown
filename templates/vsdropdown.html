@@ -2,15 +2,15 @@
      ng-style="{'border-radius':showSelector?'2px 2px 0 0':'2px'}">
     <div class="vsselectiongroup">
 
-        <div ng-if="options.selection.maximum > 1" ng-include="'vsoverlay.html'"></div>  
-        
-        <span class="vsselection" ng-style="{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}"
-              ng-click="selector()">
+        <div ng-if="options.selection.maximum > 1" ng-include="'dropdownoverlay.html'"></div>
+
+        <div class="vsselection" ng-style="{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}"
+             ng-click="selector()">
             <div class="vsselecteditem vsselecteditemcolor" ng-show="$index === 0" ng-click="$event.stopPropagation()"
                  ng-repeat="item in selectedItems track by $index">
-                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=1"></div>
+                <div class="vsiteminclude" ng-include="'dropdownitemcontent.html'" ng-init="id=1"></div>
             </div>
-        </span>
+        </div>
         
         <span class="vsselbtngroup">
             <button class="vsbtnselections" ng-if="selectedItems.length > 1" ng-click="openOverlay()">
@@ -57,12 +57,12 @@
                  ng-repeat="item in visibleItems track by $index"
                  ng-click="itemClicked($index, $event)"
                  ng-class="{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}">
-                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=2"></div>
+                <div class="vsiteminclude" ng-include="'dropdownitemcontent.html'" ng-init="id=2"></div>
             </div>
         </div>
     </div>
 
-    <script type="text/ng-template" id="vsitemcontent.html">
+    <script type="text/ng-template" id="dropdownitemcontent.html">
         <table class="vsitemcontent">
             <tr>
                 <td style="width:18px" ng-if="options.input.isObject && options.input.properties.enabled">
@@ -85,7 +85,7 @@
         </table>
     </script>
 
-    <script type="text/ng-template" id="vsoverlay.html">
+    <script type="text/ng-template" id="dropdownoverlay.html">
         <div class="vsoverlay" opacity ng-style="{'opacity': opacity}" ng-if="showOverlay && selectedItems.length > 1"
              ng-mouseleave="closeOverlay()">
             <div class="vsoverlaytitle">
@@ -96,12 +96,12 @@
             </div>
             <div class="vsselecteditem vsselecteditemcolor" ng-click="$event.stopPropagation()"
                  ng-repeat="item in selectedItems track by $index">
-                <div class="vsiteminclude" ng-include="'vsitemcontent.html'" ng-init="id=1"></div>
+                <div class="vsiteminclude" ng-include="'dropdownitemcontent.html'" ng-init="id=1"></div>
             </div>
         </div>
     </script>
 
-    <script type="text/ng-template" id="vstooltip.html">
+    <script type="text/ng-template" id="dropdowntooltip.html">
         <div class="vstooltip" style="margin-top:-20px;margin-left:10px" opacity ng-style="{'opacity': opacity}"
              ng-click="closeTooltip($event)"
              ng-keydown="$event.which === 13 ? closeTooltip($event) : null" tabindex="0">
@@ -109,7 +109,7 @@
         </div>
     </script>
 
-    <script type="text/ng-template" id="vspopover.html">
+    <script type="text/ng-template" id="dropdownpopover.html">
         <div class="vstooltip" style="margin-top:-24px;margin-left:24px" opacity ng-style="{'opacity': opacity}">
             <table class="vsproperties" ng-click="closeProperties();$event.stopPropagation()">
                 <tr>

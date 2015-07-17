@@ -605,7 +605,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 function onMouseEnter() {
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
-                            vsdropdownService.getTemplate('vstooltip.html').then(function (tpl) {
+                            vsdropdownService.getTemplate('dropdowntooltip.html').then(function (tpl) {
                                 tooltip = angular.element(tpl.data);
                                 element.append($compile(tooltip)(scope));
                             });
@@ -669,7 +669,7 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 scope.showProperties = function (event) {
                     event.stopPropagation();
                     if (angular.equals(scope.popover, null)) {
-                        vsdropdownService.getTemplate('vspopover.html').then(function (tpl) {
+                        vsdropdownService.getTemplate('dropdownpopover.html').then(function (tpl) {
                             scope.popover = angular.element(tpl.data);
                             element.append($compile(scope.popover)(scope));
                         });

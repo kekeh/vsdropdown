@@ -284,12 +284,17 @@
     border-bottom-right-radius: 2px
 }
 
+.vsdropdown table {
+    display: table
+}
+
 .vsdropdown table, .vsdropdown table td, .vsdropdown table th, .vsdropdown table tr {
     border: none;
     text-align: left;
     line-height: 1.1;
     border-collapse: separate;
-    border-spacing: 0
+    border-spacing: 0;
+    padding: 0
 }
 
 .vsdropdown .vsselecteditemcolor {
@@ -331,7 +336,7 @@
     font-style: normal
 }
 
-.icon {
+.vsdropdown .icon {
     font-family: vsdropdown;
     color: #000;
     background: 0 0 !important;
@@ -340,31 +345,31 @@
     -moz-osx-font-smoothing: grayscale
 }
 
-.icon-check:before {
+.vsdropdown .icon-check:before {
     content: "\e600"
 }
 
-.icon-clear:before {
+.vsdropdown .icon-clear:before {
     content: "\e601"
 }
 
-.icon-cross:before {
+.vsdropdown .icon-cross:before {
     content: "\e602"
 }
 
-.icon-down:before {
+.vsdropdown .icon-down:before {
     content: "\e603"
 }
 
-.icon-right:before {
+.vsdropdown .icon-right:before {
     content: "\e607"
 }
 
-.icon-selections:before {
+.vsdropdown .icon-selections:before {
     content: "\e609"
 }
 
-.icon-up:before {
+.vsdropdown .icon-up:before {
     content: "\e60b"
 }
 
