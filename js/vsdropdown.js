@@ -303,7 +303,6 @@ angular.module('vsscrollbar', [])
         };
     }]);
 
-
 /**
  * @ngdoc object
  * @name vsdropdown

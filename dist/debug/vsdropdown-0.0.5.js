@@ -1,167 +1,118 @@
 /* 
- *  Name: vsdropdown
- *  Description: Virtual scroll dropdown - AngularJS reusable UI component
- *  Version: 0.0.4
- *  Author: kekeh
- *  Homepage: http://kekeh.github.io/vsdropdown
- *  License: MIT
- *  Date: 2015-07-17
- */
-angular.module('template-vsdropdown-0.0.4.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
+*  Name: vsdropdown 
+*  Description: Virtual scroll dropdown - AngularJS reusable UI component 
+*  Version: 0.0.5 
+*  Author: kekeh 
+*  Homepage: http://kekeh.github.io/vsdropdown 
+*  License: MIT 
+*  Date: 2015-08-07 
+*/ 
+angular.module('template-vsdropdown-0.0.5.html', ['templates/vsdropdown.html', 'templates/vsscrollbar.html']);
 
-angular.module("templates/vsdropdown.html", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("templates/vsdropdown.html",
-        "<div class=\"vsdropdown\" ng-click=\"$event.stopPropagation();\"\n" +
-        "     ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\">\n" +
-        "    <div class=\"vsselectiongroup\">\n" +
-        "\n" +
-        "        <div ng-if=\"options.selection.maximum > 1\" ng-include=\"'dropdownoverlay.html'\"></div>\n" +
-        "        \n" +
-        "        <div class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\" ng-click=\"selector()\">\n" +
-        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index === 0\" ng-click=\"$event.stopPropagation()\"\n" +
-        "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "        \n" +
-        "        <span class=\"vsselbtngroup\">\n" +
-        "            <button class=\"vsbtnselections\" ng-if=\"selectedItems.length > 1\" ng-click=\"openOverlay()\">\n" +
-        "                <span class=\"icon vsiconselections icon-selections\"></span>\n" +
-        "            </button>\n" +
-        "            <button class=\"vsbtnselector\" ng-click=\"selector()\">\n" +
-        "                <span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span>\n" +
-        "            </button>\n" +
-        "            <span class=\"vsselectioncounttxt\" ng-if=\"options.selection.showCount && selectedItems.length > 1\"\n" +
-        "                  ng-click=\"openOverlay()\">{{selectedItems.length}}</span>\n" +
-        "        </span>\n" +
-        "    </div>\n" +
-        "\n" +
-        "    <div class=\"vsselector\" ng-show=\"showSelector\">\n" +
-        "        <table style=\"width: 100%\" class=\"vsfiltergroup\" ng-show=\"options.filter.enabled\"\n" +
-        "               ng-class=\"{'vsnohitsfilter': filteredItemCount === 0, 'vshitsfilter': filteredItemCount > 0}\">\n" +
-        "            <tr>\n" +
-        "                <td>\n" +
-        "                    <input class=\"vsfilterinput\" type=\"text\"\n" +
-        "                           ng-model=\"filterText\"\n" +
-        "                           ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\"\n" +
-        "                           data-ng-trim=\"false\"\n" +
-        "                           placeholder=\"{{options.filter.filterPlaceholderTxt}}\"\n" +
-        "                           ng-keydown=\"keyDown($event)\"\n" +
-        "                           ng-blur=\"focusIdx=-1\"/>\n" +
-        "                </td>\n" +
-        "                <td class=\"vsfiltermatch\">\n" +
-        "                    <span class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</span>\n" +
-        "                </td>\n" +
-        "                <td class=\"vsiconfilterclear\" style=\"width:24px\" ng-show=\"filterText.length > 0\">\n" +
-        "                    <span class=\"icon vsiconclear icon-clear\" ng-click=\"clearFilter()\"\n" +
-        "                          ng-keydown=\"$event.which === 13 ? clearFilter() : null\" tabindex=\"0\"></span>\n" +
-        "                </td>\n" +
-        "            </tr>\n" +
-        "        </table>\n" +
-        "\n" +
-        "        <div class=\"vsscrollbar\" vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\"\n" +
-        "             ng-keydown=\"keyDown($event)\" ng-focus=\"focus()\" ng-blur=\"blur()\" list-focus\n" +
-        "             height=\"{{options.visibleItemCount*config.ITEM_HEIGHT+1}}\"\n" +
-        "             on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\"\n" +
-        "             on-focus-scrollbox-fn=\"onFocusScrollbox(focused)\"\n" +
-        "             tabindex=\"0\">\n" +
-        "            <div class=\"vsitem\"\n" +
-        "                 ng-repeat=\"item in visibleItems track by $index\"\n" +
-        "                 ng-click=\"itemClicked($index, $event)\"\n" +
-        "                 ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=2\"></div>\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "    </div>\n" +
-        "\n" +
-        "    <script type=\"text/ng-template\" id=\"dropdownitemcontent.html\">\n" +
-        "        <table class=\"vsitemcontent\">\n" +
-        "            <tr>\n" +
-        "                <td style=\"width:18px\" ng-if=\"options.input.isObject && options.input.properties.enabled\">\n" +
-        "                    <span class=\"icon vsiconproperties\" popover-window\n" +
-        "                          ng-click=\"showProperties($event)\"\n" +
-        "                          ng-keydown=\"$event.which === 13 ? showProperties($event) : null\"\n" +
-        "                          ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\" tabindex=\"0\"></span>\n" +
-        "                </td>\n" +
-        "                <td class=\"vsitemtext\" tooltip-window>\n" +
-        "                    {{getPropertyValue(visiblePropName, item)}}\n" +
-        "                </td>\n" +
-        "                <td ng-if=\"id === 1\" style=\"width:16px\">\n" +
-        "                    <span class=\"icon vsiconcross icon-cross\" tabindex=\"0\" ng-click=\"removeItem($index, $event)\"\n" +
-        "                          ng-keydown=\"$event.which === 13 ? removeItem($index, $event) : null\"></span>\n" +
-        "                </td>\n" +
-        "                <td class=\"vsiconcheck\" ng-if=\"id === 2\" ng-show=\"isItemSelected(item)\" style=\"width:22px\">\n" +
-        "                    <span class=\"icon icon-check\"></span>\n" +
-        "                </td>\n" +
-        "            </tr>\n" +
-        "        </table>\n" +
-        "    </script>\n" +
-        "\n" +
-        "    <script type=\"text/ng-template\" id=\"dropdownoverlay.html\">\n" +
-        "        <div class=\"vsoverlay\" opacity ng-style=\"{'opacity': opacity}\" ng-if=\"showOverlay && selectedItems.length > 1\"\n" +
-        "             ng-mouseleave=\"closeOverlay()\">\n" +
-        "            <div class=\"vsoverlaytitle\">\n" +
-        "                <span class=\"vsoverlaytitletext\">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>\n" +
-        "                <span class=\"icon vsiconoverlaycross icon-cross\"\n" +
-        "                      ng-click=\"closeOverlay()\"\n" +
-        "                      ng-keydown=\"$event.which === 13 ? closeOverlay() : null\" tabindex=\"0\"></span>\n" +
-        "            </div>\n" +
-        "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\"\n" +
-        "                 ng-repeat=\"item in selectedItems track by $index\">\n" +
-        "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "    </script>\n" +
-        "\n" +
-        "    <script type=\"text/ng-template\" id=\"dropdowntooltip.html\">\n" +
-        "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:10px\" opacity ng-style=\"{'opacity': opacity}\"\n" +
-        "             ng-click=\"closeTooltip($event)\"\n" +
-        "             ng-keydown=\"$event.which === 13 ? closeTooltip($event) : null\" tabindex=\"0\">\n" +
-        "            <span class=\"vstooltiptext\">{{getPropertyValue(visiblePropName, item)}}</span>\n" +
-        "        </div>\n" +
-        "    </script>\n" +
-        "\n" +
-        "    <script type=\"text/ng-template\" id=\"dropdownpopover.html\">\n" +
-        "        <div class=\"vstooltip\" style=\"margin-top:-24px;margin-left:24px\" opacity ng-style=\"{'opacity': opacity}\">\n" +
-        "            <table class=\"vsproperties\" ng-click=\"closeProperties();$event.stopPropagation()\">\n" +
-        "                <tr>\n" +
-        "                    <th>{{options.input.properties.propertyTitle}}</th>\n" +
-        "                    <th>{{options.input.properties.valueTitle}}</th>\n" +
-        "                </tr>\n" +
-        "                <tr ng-repeat=\"prop in options.input.properties.props\">\n" +
-        "                    <td>{{prop}}</td>\n" +
-        "                    <td>{{getPropertyValue(prop, item)}}</td>\n" +
-        "                </tr>\n" +
-        "            </table>\n" +
-        "        </div>\n" +
-        "    </script>\n" +
-        "\n" +
-        "</div>");
+angular.module("templates/vsdropdown.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/vsdropdown.html",
+    "<div class=\"vsdropdown\" ng-click=\"$event.stopPropagation()\" ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\">\n" +
+    "    <div class=\"vsselectiongroup\">\n" +
+    "        <div ng-if=\"options.selection.maximum > 1\" ng-include=\"'dropdownoverlay.html'\"></div>\n" +
+    "        <div class=\"vsselection\" ng-style=\"{'padding-right': selectedItems.length > 1 ? '60px' : '30px'}\" ng-click=\"selector()\">\n" +
+    "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index === 0\" ng-click=\"$event.stopPropagation()\" ng-repeat=\"item in selectedItems track by $index\">\n" +
+    "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <span class=\"vsselbtngroup\">\n" +
+    "            <button class=\"vsbtnselections\" ng-if=\"selectedItems.length > 1\" ng-click=\"openOverlay()\"><span class=\"icon vsiconselections icon-selections\"></span></button>\n" +
+    "            <button class=\"vsbtnselector\" ng-click=\"selector()\"><span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span></button>\n" +
+    "            <span class=\"vsselectioncounttxt\" ng-if=\"options.selection.showCount && selectedItems.length > 1\" ng-click=\"openOverlay()\">{{selectedItems.length}}</span>\n" +
+    "        </span>\n" +
+    "    </div>\n" +
+    "    <div class=\"vsselector\" ng-show=\"showSelector\">\n" +
+    "        <table style=\"width: 100%\" class=\"vsfiltergroup\" ng-show=\"options.filter.enabled\" ng-class=\"{'vsnohitsfilter': filteredItemCount === 0, 'vshitsfilter': filteredItemCount > 0}\">\n" +
+    "            <tr>\n" +
+    "                <td>\n" +
+    "                    <input class=\"vsfilterinput\" type=\"text\" ng-model=\"filterText\" ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\" data-ng-trim=\"false\" placeholder=\"{{options.filter.filterPlaceholderTxt}}\" ng-keydown=\"keyDown($event)\" ng-blur=\"focusIdx=-1\"/>\n" +
+    "                </td>\n" +
+    "                <td class=\"vsfiltermatch\">\n" +
+    "                    <span class=\"vsfiltermatchtext\">{{filteredItemCount > 0 ? filteredItemCount : options.filter.noHitsTxt}}</span>\n" +
+    "                </td>\n" +
+    "                <td class=\"vsiconfilterclear\" style=\"width:24px\" ng-show=\"filterText.length > 0\">\n" +
+    "                    <span class=\"icon vsiconclear icon-clear\" ng-click=\"clearFilter()\" ng-keydown=\"$event.which === 13 ? clearFilter() : null\" tabindex=\"0\"></span>\n" +
+    "                </td>\n" +
+    "            </tr>\n" +
+    "        </table>\n" +
+    "        <div class=\"vsscrollbar\" vsscrollbar items=\"options.items\" items-in-page=\"{{options.visibleItemCount}}\" ng-keydown=\"keyDown($event)\" ng-focus=\"focus()\" ng-blur=\"blur()\" list-focus height=\"{{options.visibleItemCount*config.ITEM_HEIGHT+1}}\" on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\" on-focus-scrollbox-fn=\"onFocusScrollbox(focused)\" tabindex=\"0\">\n" +
+    "            <div class=\"vsitem\" ng-repeat=\"item in visibleItems track by $index\" ng-click=\"itemClicked($index, $event)\" ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\">\n" +
+    "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=2\"></div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <script type=\"text/ng-template\" id=\"dropdownitemcontent.html\">\n" +
+    "        <table class=\"vsitemcontent\">\n" +
+    "            <tr>\n" +
+    "                <td style=\"width:18px\" ng-if=\"options.input.isObject && options.input.properties.enabled\">\n" +
+    "                    <span class=\"icon vsiconproperties\" popover-window ng-click=\"showProperties($event)\" ng-keydown=\"$event.which === 13 ? showProperties($event) : null\" ng-class=\"popover!==null ? 'icon-down' : 'icon-right'\" tabindex=\"0\"></span>\n" +
+    "                </td>\n" +
+    "                <td class=\"vsitemtext\" tooltip-window>{{getPropertyValue(visiblePropName, item)}}</td>\n" +
+    "                <td ng-if=\"id === 1\" style=\"width:16px\">\n" +
+    "                    <span class=\"icon vsiconcross icon-cross\" tabindex=\"0\" ng-click=\"removeItem($index, $event)\" ng-keydown=\"$event.which === 13 ? removeItem($index, $event) : null\"></span>\n" +
+    "                </td>\n" +
+    "                <td class=\"vsiconcheck\" ng-if=\"id === 2\" ng-show=\"isItemSelected(item)\" style=\"width:22px\"><span class=\"icon icon-check\"></span></td>\n" +
+    "            </tr>\n" +
+    "        </table>\n" +
+    "    </script>\n" +
+    "\n" +
+    "    <script type=\"text/ng-template\" id=\"dropdownoverlay.html\">\n" +
+    "        <div class=\"vsoverlay\" opacity ng-style=\"{'opacity': opacity}\" ng-if=\"showOverlay && selectedItems.length > 1\" ng-mouseleave=\"closeOverlay()\">\n" +
+    "            <div class=\"vsoverlaytitle\">\n" +
+    "                <span class=\"vsoverlaytitletext\">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>\n" +
+    "                <span class=\"icon vsiconoverlaycross icon-cross\" ng-click=\"closeOverlay()\" ng-keydown=\"$event.which === 13 ? closeOverlay() : null\" tabindex=\"0\"></span>\n" +
+    "            </div>\n" +
+    "            <div class=\"vsselecteditem vsselecteditemcolor\" ng-click=\"$event.stopPropagation()\" ng-repeat=\"item in selectedItems track by $index\">\n" +
+    "                <div class=\"vsiteminclude\" ng-include=\"'dropdownitemcontent.html'\" ng-init=\"id=1\"></div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </script>\n" +
+    "\n" +
+    "    <script type=\"text/ng-template\" id=\"dropdowntooltip.html\">\n" +
+    "        <div class=\"vstooltip\" style=\"margin-top:-20px;margin-left:10px\" opacity ng-style=\"{'opacity': opacity}\" ng-click=\"closeTooltip($event)\" ng-keydown=\"$event.which === 13 ? closeTooltip($event) : null\" tabindex=\"0\">\n" +
+    "            <span class=\"vstooltiptext\">{{getPropertyValue(visiblePropName, item)}}</span>\n" +
+    "        </div>\n" +
+    "    </script>\n" +
+    "\n" +
+    "    <script type=\"text/ng-template\" id=\"dropdownpopover.html\">\n" +
+    "        <div class=\"vstooltip\" style=\"margin-top:-24px;margin-left:24px\" opacity ng-style=\"{'opacity': opacity}\">\n" +
+    "            <table class=\"vsproperties\" ng-click=\"closeProperties();$event.stopPropagation()\">\n" +
+    "                <tr>\n" +
+    "                    <th>{{options.input.properties.propertyTitle}}</th>\n" +
+    "                    <th>{{options.input.properties.valueTitle}}</th>\n" +
+    "                </tr>\n" +
+    "                <tr ng-repeat=\"prop in options.input.properties.props\">\n" +
+    "                    <td>{{prop}}</td>\n" +
+    "                    <td>{{getPropertyValue(prop, item)}}</td>\n" +
+    "                </tr>\n" +
+    "            </table>\n" +
+    "        </div>\n" +
+    "    </script>\n" +
+    "</div>");
 }]);
 
-angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("templates/vsscrollbar.html",
-        "<table class=\"vsscrollbarcontainer\" ng-show=\"filteredItems.length > 0\"\n" +
-        "       style=\"border-collapse:separate; border-spacing:0; padding:0; height:100%;\">\n" +
-        "    <tr>\n" +
-        "        <td style=\"width:100%; padding:0; vertical-align: top;\">\n" +
-        "            <div class=\"vsscrollbarcontent\" ng-style=\"{'margin': scrollbarVisible ? '1px 0 1px 1px' : '1px'}\"\n" +
-        "                 style=\"overflow-y:hidden; padding:0; outline:0;\" ng-transclude></div>\n" +
-        "        </td>\n" +
-        "        <td style=\"padding:0; height:100%;\">\n" +
-        "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\"\n" +
-        "                 style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
-        "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\"\n" +
-        "                     ng-style=\"{'height': boxHeight + 'px'}\"\n" +
-        "                     ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
-        "            </div>\n" +
-        "        </td>\n" +
-        "    </tr>\n" +
-        "</table> \n" +
-        "");
+angular.module("templates/vsscrollbar.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("templates/vsscrollbar.html",
+    "<table class=\"vsscrollbarcontainer\" ng-show=\"filteredItems.length > 0\" style=\"border-collapse:separate; border-spacing:0; padding:0; height:100%;\">\n" +
+    "    <tr>\n" +
+    "        <td style=\"width:100%; padding:0; vertical-align: top;\">\n" +
+    "            <div class=\"vsscrollbarcontent\" ng-style=\"{'margin': scrollbarVisible ? '1px 0 1px 1px' : '1px'}\" style=\"overflow-y:hidden; padding:0; outline:0;\" ng-transclude></div>\n" +
+    "        </td>\n" +
+    "        <td style=\"padding:0; height:100%;\">\n" +
+    "            <div class=\"vsscrollbar\" ng-show=\"scrollbarVisible\" style=\"float: right; height:100%; padding:0; margin:1px;\">\n" +
+    "                <div class=\"vsscrollbox\" tabindex=\"0\" ng-focus=\"scrollBoxFocus()\" ng-blur=\"scrollBoxBlur()\" ng-style=\"{'height': boxHeight + 'px'}\" ng-click=\"$event.stopPropagation();\" style=\"position:relative; padding:0; outline:0;\"></div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "</table>");
 }]);
 
-angular.module('vsscrollbar', ["template-vsdropdown-0.0.4.html"])
+angular.module('vsscrollbar', ["template-vsdropdown-0.0.5.html"])
     .constant('vsscrollbarConfig', {
         ITEMS_IN_PAGE: 6,
         SCROLLBAR_HEIGHT: 0,
@@ -465,7 +416,6 @@ angular.module('vsscrollbar', ["template-vsdropdown-0.0.4.html"])
             }
         };
     }]);
-
 
 /**
  * @ngdoc object
