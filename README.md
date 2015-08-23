@@ -1,4 +1,4 @@
-# vsdropdown v. 0.0.5
+# vsdropdown v. 0.0.6
 
 **Virtual scroll dropdown - AngularJS reusable UI component**
 
@@ -35,10 +35,10 @@ AngularJS directive which implements the virtual scroll dropdown.
 
 ## Usage
 
-* include the **vsdropdown-0.0.5.min.js** and the **vsdropdown-0.0.5.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
+* include the **vsdropdown-0.0.6.min.js** and the **vsdropdown-0.0.6.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
 ```html
-<script src="vsscrollbar-0.0.5.min.js"></script>
-<link href="vsscrollbar-0.0.5.min.css" rel="stylesheet" type="text/css">
+<script src="vsscrollbar-0.0.6.min.js"></script>
+<link href="vsscrollbar-0.0.6.min.css" rel="stylesheet" type="text/css">
 ```
 * inject the **vsdropdown** module into your application module.
 ```js
@@ -185,7 +185,7 @@ bower install vsdropdown
 * Opera 28.0
 * Mobile Safari 8
 
-## Licence
+## License
 * License: MIT
 
 ## Author

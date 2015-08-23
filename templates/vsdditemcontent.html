@@ -1,0 +1,14 @@
+<table class="vsitemcontent">
+    <tr>
+        <td style="width:18px" ng-if="options.input.isObject&&options.input.properties.enabled">
+            <span class="icon vsiconproperties" popover-window ng-click="showProperties($event)" ng-keydown="$event.which===13?showProperties($event):null" ng-class="popover!==null?'icon-down':'icon-right'" tabindex="0"></span>
+        </td>
+        <td class="vsitemtext" tooltip-window>{{getPropertyValue(visiblePropName, item)}}</td>
+        <td ng-if="id===1" style="width:16px">
+            <span class="icon vsiconcross icon-cross" tabindex="0" ng-click="removeItem($index, $event)" ng-keydown="$event.which===13?removeItem($index, $event):null"></span>
+        </td>
+        <td class="vsiconcheck" ng-if="id===2" ng-show="isItemSelected(item)" style="width:22px">
+            <span class="icon icon-check"></span>
+        </td>
+    </tr>
+</table>

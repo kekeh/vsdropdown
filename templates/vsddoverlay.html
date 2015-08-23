@@ -1,0 +1,10 @@
+<div class="vsoverlay" opacity ng-style="{'opacity': opacity}" ng-if="showOverlay&&selectedItems.length>1" ng-mouseleave="closeOverlay()">
+    <div class="vsoverlaytitle">
+        <span class="vsoverlaytitletext">{{selectedItems.length}} {{options.selection.selectionsTxt}}</span>
+        <span class="icon vsiconoverlaycross icon-cross" ng-click="closeOverlay()" ng-keydown="$event.which===13?closeOverlay():null" tabindex="0"></span>
+    </div>
+    <div class="vsselecteditem vsselecteditemcolor" ng-click="$event.stopPropagation()"
+         ng-repeat="item in selectedItems track by $index">
+        <div class="vsiteminclude" ng-include="'templates/vsdditemcontent.html'" ng-init="id=1"></div>
+    </div>
+</div>

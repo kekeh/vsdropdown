@@ -1,0 +1,12 @@
+<div class="vstooltip" style="margin-top:-24px;margin-left:24px" opacity ng-style="{'opacity': opacity}">
+    <table class="vsproperties" ng-click="closeProperties();$event.stopPropagation()">
+        <tr>
+            <th>{{options.input.properties.propertyTitle}}</th>
+            <th>{{options.input.properties.valueTitle}}</th>
+        </tr>
+        <tr ng-repeat="prop in options.input.properties.props">
+            <td>{{prop}}</td>
+            <td>{{getPropertyValue(prop, item)}}</td>
+        </tr>
+    </table>
+</div>

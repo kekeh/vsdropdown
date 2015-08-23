@@ -310,7 +310,7 @@ angular.module('vsscrollbar', [])
  */
 angular.module('vsdropdown', ['vsscrollbar'])
     .constant('vsdropdownConfig', {
-        ITEM_HEIGHT: 35,
+        ITEM_HEIGHT: 31,
         LIST_FOCUS_EVENT: 'vsdropdown.listFocusEvent',
         OPERATION_ADD: '+',
         OPERATION_DEL: '-',
@@ -324,12 +324,9 @@ angular.module('vsdropdown', ['vsscrollbar'])
  * @name vsdropdownService
  * @description vsdropdownService contain common code of the vsdropdown.
  */
-    .service('vsdropdownService', ['$http', '$templateCache', function ($http, $templateCache) {
+    .service('vsdropdownService', ['$templateCache', function ($templateCache) {
         this.getTemplate = function (name) {
-            var promise = $http.get(name, {cache: $templateCache}).success(function (response) {
-                return response.data;
-            });
-            return promise;
+            return $templateCache.get(name);
         };
     }])
 
@@ -604,10 +601,8 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 function onMouseEnter() {
                     if (element[0].scrollWidth > element[0].offsetWidth) {
                         timer = $timeout(function () {
-                            vsdropdownService.getTemplate('dropdowntooltip.html').then(function (tpl) {
-                                tooltip = angular.element(tpl.data);
-                                element.append($compile(tooltip)(scope));
-                            });
+                            tooltip = angular.element(vsdropdownService.getTemplate('templates/vsddtooltip.html'));
+                            element.append($compile(tooltip)(scope));
                         }, scope.config.TOOLTIP_OPEN_DELAY);
                     }
                 }
@@ -668,10 +663,8 @@ angular.module('vsdropdown', ['vsscrollbar'])
                 scope.showProperties = function (event) {
                     event.stopPropagation();
                     if (angular.equals(scope.popover, null)) {
-                        vsdropdownService.getTemplate('dropdownpopover.html').then(function (tpl) {
-                            scope.popover = angular.element(tpl.data);
-                            element.append($compile(scope.popover)(scope));
-                        });
+                        scope.popover = angular.element(vsdropdownService.getTemplate('templates/vsddpopover.html'));
+                        element.append($compile(scope.popover)(scope));
                     }
                     else {
                         scope.closeProperties();
