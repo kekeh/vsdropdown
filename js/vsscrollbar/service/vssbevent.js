@@ -1,9 +1,9 @@
 /**
  * @ngdoc object
- * @name vsscrollbarEvent
- * @description vsscrollbarEvent contain event function of the vsscrollbar
+ * @name vsddsbEvent
+ * @description vsddsbEvent contain event function of the vsddscrollbar
  */
-_vsdd.factory('vsscrollbarEvent', function () {
+_vsdd.factory('vsddsbEvent', function () {
     var factory = {};
     factory.setIndex = function ($scope, index) {
         broadcast($scope, 'setIndex', index);

@@ -17,7 +17,7 @@ angular.module('template-vsdropdown-0.1.0.html', []).run(['$templateCache', func
   $templateCache.put("templates/vsdropdown/vsddtooltip.html",
     "<div class=vstooltip style=margin-top:-20px;margin-left:10px opacity ng-style=\"{'opacity': opacity}\" ng-click=closeTooltip($event) ng-keydown=\"$event.which===13?closeTooltip($event):null\" tabindex=0><span class=vstooltiptext>{{getPropertyValue(visiblePropName, item)}}</span></div>");
   $templateCache.put("templates/vsdropdown/vsdropdown.html",
-    "<div class=vsdropdown ng-click=$event.stopPropagation() ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\"><div class=vsselectiongroup><div ng-if=\"options.selection.maximum>1\" ng-include=\"'templates/vsdropdown/vsddoverlay.html'\"></div><div class=vsselection ng-style=\"{'padding-right': selectedItems.length>1?'60px':'30px'}\" ng-click=selector()><div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index===0\" ng-click=$event.stopPropagation() ng-repeat=\"item in selectedItems track by $index\"><div class=vsiteminclude ng-include=\"'templates/vsdropdown/vsdditemcontent.html'\" ng-init=\"id=1\"></div></div></div><span class=vsselbtngroup><button class=vsbtnselections ng-if=\"selectedItems.length>1\" ng-click=openOverlay()><span class=\"icon vsiconselections icon-selections\"></span></button> <button class=vsbtnselector ng-click=selector()><span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span></button> <span class=vsselectioncounttxt ng-if=\"options.selection.showCount&&selectedItems.length>1\" ng-click=openOverlay()>{{selectedItems.length}}</span></span></div><div class=vsselector ng-show=showSelector><table style=\"width: 100%\" class=vsfiltergroup ng-show=options.filter.enabled ng-class=\"{'vsnohitsfilter': filteredItemCount===0, 'vshitsfilter': filteredItemCount>0}\"><tr><td><input class=vsfilterinput ng-model=filterText ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\" data-ng-trim=false placeholder={{options.filter.filterPlaceholderTxt}} ng-keydown=keyDown($event) ng-blur=\"focusIdx=-1\"></td><td class=vsfiltermatch><span class=vsfiltermatchtext>{{filteredItemCount>0?filteredItemCount:options.filter.noHitsTxt}}</span></td><td class=vsiconfilterclear style=width:24px ng-show=\"filterText.length>0\"><span class=\"icon vsiconclear icon-clear\" ng-click=clearFilter() ng-keydown=\"$event.which===13?clearFilter():null\" tabindex=0></span></td></tr></table><div class=vsscrollbar vsscrollbar items=options.items items-in-page={{options.visibleItemCount}} ng-keydown=keyDown($event) ng-focus=focus() ng-blur=blur() list-focus height={{options.visibleItemCount*config.ITEM_HEIGHT+1}} on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\" on-focus-scrollbox-fn=onFocusScrollbox(focused) tabindex=0><div class=vsitem ng-repeat=\"item in visibleItems track by $index\" ng-click=\"itemClicked($index, $event)\" ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\"><div class=vsiteminclude ng-include=\"'templates/vsdropdown/vsdditemcontent.html'\" ng-init=\"id=2\"></div></div></div></div></div>");
+    "<div class=vsdropdown ng-click=$event.stopPropagation() ng-style=\"{'border-radius':showSelector?'2px 2px 0 0':'2px'}\"><div class=vsselectiongroup><div ng-if=\"options.selection.maximum>1\" ng-include=\"'templates/vsdropdown/vsddoverlay.html'\"></div><div class=vsselection ng-style=\"{'padding-right': selectedItems.length>1?'60px':'30px'}\" ng-click=selector()><div class=\"vsselecteditem vsselecteditemcolor\" ng-show=\"$index===0\" ng-click=$event.stopPropagation() ng-repeat=\"item in selectedItems track by $index\"><div class=vsiteminclude ng-include=\"'templates/vsdropdown/vsdditemcontent.html'\" ng-init=\"id=1\"></div></div></div><span class=vsselbtngroup><button class=vsbtnselections ng-if=\"selectedItems.length>1\" ng-click=openOverlay()><span class=\"icon vsiconselections icon-selections\"></span></button> <button class=vsbtnselector ng-click=selector()><span class=\"icon vsiconselector\" ng-class=\"showSelector ? 'icon-up' : 'icon-down'\"></span></button> <span class=vsselectioncounttxt ng-if=\"options.selection.showCount&&selectedItems.length>1\" ng-click=openOverlay()>{{selectedItems.length}}</span></span></div><div class=vsselector ng-show=showSelector><table style=\"width: 100%\" class=vsfiltergroup ng-show=options.filter.enabled ng-class=\"{'vsnohitsfilter': filteredItemCount===0, 'vshitsfilter': filteredItemCount>0}\"><tr><td><input class=vsfilterinput ng-model=filterText ng-model-options=\"{debounce: config.FILTERING_BEGIN_DELAY}\" data-ng-trim=false placeholder={{options.filter.filterPlaceholderTxt}} ng-keydown=keyDown($event) ng-blur=\"focusIdx=-1\"></td><td class=vsfiltermatch><span class=vsfiltermatchtext>{{filteredItemCount>0?filteredItemCount:options.filter.noHitsTxt}}</span></td><td class=vsiconfilterclear style=width:24px ng-show=\"filterText.length>0\"><span class=\"icon vsiconclear icon-clear\" ng-click=clearFilter() ng-keydown=\"$event.which===13?clearFilter():null\" tabindex=0></span></td></tr></table><div class=vsscrollbar vsddscrollbar items=options.items items-in-page={{options.visibleItemCount}} ng-keydown=keyDown($event) ng-focus=focus() ng-blur=blur() list-focus height={{options.visibleItemCount*config.ITEM_HEIGHT+1}} on-scroll-change-fn=\"onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)\" on-focus-scrollbox-fn=onFocusScrollbox(focused) tabindex=0><div class=vsitem ng-repeat=\"item in visibleItems track by $index\" ng-click=\"itemClicked($index, $event)\" ng-class=\"{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}\"><div class=vsiteminclude ng-include=\"'templates/vsdropdown/vsdditemcontent.html'\" ng-init=\"id=2\"></div></div></div></div></div>");
   $templateCache.put("templates/vsscrollbar/vsscrollbar.html",
     "<table class=vsscrollbarcontainer ng-show=\"filteredItems.length>0\" style=border-collapse:separate;border-spacing:0;padding:0;height:100%><tr><td style=width:100%;padding:0;vertical-align:top><div class=vsscrollbarcontent ng-style=\"{'margin': scrollbarVisible?'1px 0 1px 1px':'1px'}\" style=overflow-y:hidden;padding:0;outline:0 ng-transclude></div></td><td style=padding:0;height:100%><div class=vsscrollbar ng-show=scrollbarVisible style=float:right;height:100%;padding:0;margin:1px><div class=vsscrollbox tabindex=0 ng-focus=scrollBoxFocus() ng-blur=scrollBoxBlur() ng-style=\"{'height': boxHeight + 'px'}\" ng-click=$event.stopPropagation() style=position:relative;padding:0;outline:0></div></div></td></tr></table>");
 }]);
@@ -60,7 +60,7 @@ _vsdd.service('vsdropdownService', ['$templateCache', function ($templateCache) 
  * @name vsdropdown
  * @description vsdropdown is main directive of the component.
  */
-_vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeout, vsscrollbarEvent) {
+_vsdd.directive('vsdropdown', ['$timeout', 'vsddsbEvent', function ($timeout, vsddsbEvent) {
     return {
         restrict: 'EA',
         templateUrl: 'templates/vsdropdown/vsdropdown.html',
@@ -177,7 +177,7 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
                     }
                     else if (event.which === 38) {
                         if (scope.focusIdx === 0) {
-                            vsscrollbarEvent.setIndex(scope, scope.topIndex - scope.options.visibleItemCount);
+                            vsddsbEvent.setIndex(scope, scope.topIndex - scope.options.visibleItemCount);
                             scope.focusIdx = scope.filteredItemCount < scope.options.visibleItemCount ? scope.filteredItemCount - 1 : scope.options.visibleItemCount - 1;
                         }
                         else {
@@ -186,7 +186,7 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
                     }
                     else if (event.which === 40) {
                         if (isFocusBottom()) {
-                            vsscrollbarEvent.setIndex(scope, scope.topIndex + scope.options.visibleItemCount);
+                            vsddsbEvent.setIndex(scope, scope.topIndex + scope.options.visibleItemCount);
                             scope.focusIdx = 0;
                         }
                         else {
@@ -225,10 +225,10 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
             function filter() {
                 if (scope.options.input.isObject) {
                     var fltObj = {};
-                    vsscrollbarEvent.filter(scope, createFilterObj(fltObj));
+                    vsddsbEvent.filter(scope, createFilterObj(fltObj));
                 }
                 else {
-                    vsscrollbarEvent.filter(scope, scope.filterText);
+                    vsddsbEvent.filter(scope, scope.filterText);
                 }
             }
 
@@ -460,10 +460,10 @@ _vsdd.directive('opacity', ['$interval', function ($interval) {
 
 /**
  * @ngdoc object
- * @name vsscrollbarConfig
- * @description vsscrollbarConfig contain constants and configuration of the vsscrollbar
+ * @name vssbConf
+ * @description vssbConf contain constants and configuration of the vsscrollbar
  */
-_vsdd.constant('vsscrollbarConfig', {
+_vsdd.constant('vssbConf', {
     ITEMS_IN_PAGE: 6,
     SCROLLBAR_HEIGHT: 0,
     SCROLLBOX_MIN_HEIGHT: 18
@@ -471,10 +471,10 @@ _vsdd.constant('vsscrollbarConfig', {
 
 /**
  * @ngdoc object
- * @name vsscrollbarEvent
- * @description vsscrollbarEvent contain event function of the vsscrollbar
+ * @name vsddsbEvent
+ * @description vsddsbEvent contain event function of the vsddscrollbar
  */
-_vsdd.factory('vsscrollbarEvent', function () {
+_vsdd.factory('vsddsbEvent', function () {
     var factory = {};
     factory.setIndex = function ($scope, index) {
         broadcast($scope, 'setIndex', index);
@@ -509,10 +509,10 @@ _vsdd.factory('vsscrollbarEvent', function () {
 
 /**
  * @ngdoc object
- * @name vsscrollbarService
- * @description vsscrollbarService contain service functions of the vsscrollbar
+ * @name vsddsbService
+ * @description vsddsbService contain service functions of the vsddscrollbar
  */
-_vsdd.service('vsscrollbarService', function () {
+_vsdd.service('vsddsbService', function () {
     this.calcIndex = function (pos, maxIndex, maxPos) {
         var idx = 0;
         if (this.checkIsMaxPos(pos, maxPos)) {
@@ -559,10 +559,10 @@ _vsdd.service('vsscrollbarService', function () {
 
 /**
  * @ngdoc object
- * @name vsscrollbar
- * @description vsscrollbar is main directive of the vsscrollbar component.
+ * @name vsddscrollbar
+ * @description vsddscrollbar is main directive of the vsddscrollbar component.
  */
-_vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbarService', 'vsscrollbarConfig', function ($filter, $timeout, $document, vsscrollbarService, vsscrollbarConfig) {
+_vsdd.directive('vsddscrollbar', ['$filter', '$timeout', '$document', 'vsddsbService', 'vssbConf', function ($filter, $timeout, $document, vsddsbService, vssbConf) {
     return {
         restrict: 'AE',
         scope: {
@@ -578,12 +578,12 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
             var scrollbarContent = angular.element(element[0].querySelector('.vsscrollbarcontent'));
             var scrollbar = angular.element(element[0].querySelector('.vsscrollbar'));
             var scrollbox = scrollbar.children();
-            var itemsInPage = !angular.isUndefined(attrs.itemsInPage) ? scope.$eval(attrs.itemsInPage) : vsscrollbarConfig.ITEMS_IN_PAGE;
-            var scrollbarHeight = !angular.isUndefined(attrs.height) ? scope.$eval(attrs.height) : vsscrollbarConfig.SCROLLBAR_HEIGHT;
+            var itemsInPage = !angular.isUndefined(attrs.itemsInPage) ? scope.$eval(attrs.itemsInPage) : vssbConf.ITEMS_IN_PAGE;
+            var scrollbarHeight = !angular.isUndefined(attrs.height) ? scope.$eval(attrs.height) : vssbConf.SCROLLBAR_HEIGHT;
             var scrollStart = 0, index = 0, maxIdx = 0, position = 0, maxPos = 0;
             var filterStr = '';
 
-            scope.boxHeight = vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT;
+            scope.boxHeight = vssbConf.SCROLLBOX_MIN_HEIGHT;
             scope.scrollbarVisible = true;
 
             scrollbox.on('mousedown touchstart', onScrollMoveStart);
@@ -597,7 +597,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function onScrollMove(event) {
                 var pos = angular.isUndefined(event.changedTouches) ? event.clientY - scrollStart : event.changedTouches[0].clientY - scrollStart;
-                setScrollPos(vsscrollbarService.validatePos(pos, maxPos));
+                setScrollPos(vsddsbService.validatePos(pos, maxPos));
                 scope.$apply();
             }
 
@@ -631,7 +631,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function onScrollbarClick(event) {
                 var value = event.offsetY || event.layerY;
-                setScrollPos(vsscrollbarService.validatePos(value < scope.boxHeight ? 0 : value, maxPos));
+                setScrollPos(vsddsbService.validatePos(value < scope.boxHeight ? 0 : value, maxPos));
                 scope.$apply();
             }
 
@@ -666,7 +666,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
                     setIndex(Math.round(data.value), true);
                 }
                 else if (data.type === 'setPosition' && data.value !== position && data.value >= 0) {
-                    setScrollPos(vsscrollbarService.validatePos(Math.round(data.value), maxPos));
+                    setScrollPos(vsddsbService.validatePos(Math.round(data.value), maxPos));
                 }
                 else if (data.type === 'filter') {
                     filterStr = data.value;
@@ -705,7 +705,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function initScrollValues() {
                 var height = Math.floor(scrollbarHeight / (scope.filteredItems.length / itemsInPage));
-                scope.boxHeight = height < vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT ? vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT : height;
+                scope.boxHeight = height < vssbConf.SCROLLBOX_MIN_HEIGHT ? vssbConf.SCROLLBOX_MIN_HEIGHT : height;
                 maxIdx = scope.filteredItems.length - itemsInPage < 0 ? 0 : scope.filteredItems.length - itemsInPage;
                 maxPos = scrollbarHeight - scope.boxHeight < 0 ? 0 : scrollbarHeight - scope.boxHeight;
             }
@@ -713,15 +713,15 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
             function setScrollPos(pos) {
                 if ((pos = Math.round(pos)) !== position) {
                     position = pos;
-                    index = vsscrollbarService.calcIndex(position, maxIdx, maxPos);
+                    index = vsddsbService.calcIndex(position, maxIdx, maxPos);
                     moveScrollBox();
                 }
             }
 
             function setIndex(idx, verifyChange) {
-                if ((idx = vsscrollbarService.validateIndex(idx, maxIdx)) !== index || !verifyChange) {
+                if ((idx = vsddsbService.validateIndex(idx, maxIdx)) !== index || !verifyChange) {
                     index = idx;
-                    position = vsscrollbarService.calcScrollPos(index, maxIdx, maxPos);
+                    position = vsddsbService.calcScrollPos(index, maxIdx, maxPos);
                     moveScrollBox();
                 }
             }

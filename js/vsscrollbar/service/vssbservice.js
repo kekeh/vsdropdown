@@ -1,9 +1,9 @@
 /**
  * @ngdoc object
- * @name vsscrollbarService
- * @description vsscrollbarService contain service functions of the vsscrollbar
+ * @name vsddsbService
+ * @description vsddsbService contain service functions of the vsddscrollbar
  */
-_vsdd.service('vsscrollbarService', function () {
+_vsdd.service('vsddsbService', function () {
     this.calcIndex = function (pos, maxIndex, maxPos) {
         var idx = 0;
         if (this.checkIsMaxPos(pos, maxPos)) {

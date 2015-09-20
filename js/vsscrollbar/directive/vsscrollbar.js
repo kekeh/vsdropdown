@@ -1,9 +1,9 @@
 /**
  * @ngdoc object
- * @name vsscrollbar
- * @description vsscrollbar is main directive of the vsscrollbar component.
+ * @name vsddscrollbar
+ * @description vsddscrollbar is main directive of the vsddscrollbar component.
  */
-_vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbarService', 'vsscrollbarConfig', function ($filter, $timeout, $document, vsscrollbarService, vsscrollbarConfig) {
+_vsdd.directive('vsddscrollbar', ['$filter', '$timeout', '$document', 'vsddsbService', 'vssbConf', function ($filter, $timeout, $document, vsddsbService, vssbConf) {
     return {
         restrict: 'AE',
         scope: {
@@ -19,12 +19,12 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
             var scrollbarContent = angular.element(element[0].querySelector('.vsscrollbarcontent'));
             var scrollbar = angular.element(element[0].querySelector('.vsscrollbar'));
             var scrollbox = scrollbar.children();
-            var itemsInPage = !angular.isUndefined(attrs.itemsInPage) ? scope.$eval(attrs.itemsInPage) : vsscrollbarConfig.ITEMS_IN_PAGE;
-            var scrollbarHeight = !angular.isUndefined(attrs.height) ? scope.$eval(attrs.height) : vsscrollbarConfig.SCROLLBAR_HEIGHT;
+            var itemsInPage = !angular.isUndefined(attrs.itemsInPage) ? scope.$eval(attrs.itemsInPage) : vssbConf.ITEMS_IN_PAGE;
+            var scrollbarHeight = !angular.isUndefined(attrs.height) ? scope.$eval(attrs.height) : vssbConf.SCROLLBAR_HEIGHT;
             var scrollStart = 0, index = 0, maxIdx = 0, position = 0, maxPos = 0;
             var filterStr = '';
 
-            scope.boxHeight = vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT;
+            scope.boxHeight = vssbConf.SCROLLBOX_MIN_HEIGHT;
             scope.scrollbarVisible = true;
 
             scrollbox.on('mousedown touchstart', onScrollMoveStart);
@@ -38,7 +38,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function onScrollMove(event) {
                 var pos = angular.isUndefined(event.changedTouches) ? event.clientY - scrollStart : event.changedTouches[0].clientY - scrollStart;
-                setScrollPos(vsscrollbarService.validatePos(pos, maxPos));
+                setScrollPos(vsddsbService.validatePos(pos, maxPos));
                 scope.$apply();
             }
 
@@ -72,7 +72,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function onScrollbarClick(event) {
                 var value = event.offsetY || event.layerY;
-                setScrollPos(vsscrollbarService.validatePos(value < scope.boxHeight ? 0 : value, maxPos));
+                setScrollPos(vsddsbService.validatePos(value < scope.boxHeight ? 0 : value, maxPos));
                 scope.$apply();
             }
 
@@ -107,7 +107,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
                     setIndex(Math.round(data.value), true);
                 }
                 else if (data.type === 'setPosition' && data.value !== position && data.value >= 0) {
-                    setScrollPos(vsscrollbarService.validatePos(Math.round(data.value), maxPos));
+                    setScrollPos(vsddsbService.validatePos(Math.round(data.value), maxPos));
                 }
                 else if (data.type === 'filter') {
                     filterStr = data.value;
@@ -146,7 +146,7 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
 
             function initScrollValues() {
                 var height = Math.floor(scrollbarHeight / (scope.filteredItems.length / itemsInPage));
-                scope.boxHeight = height < vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT ? vsscrollbarConfig.SCROLLBOX_MIN_HEIGHT : height;
+                scope.boxHeight = height < vssbConf.SCROLLBOX_MIN_HEIGHT ? vssbConf.SCROLLBOX_MIN_HEIGHT : height;
                 maxIdx = scope.filteredItems.length - itemsInPage < 0 ? 0 : scope.filteredItems.length - itemsInPage;
                 maxPos = scrollbarHeight - scope.boxHeight < 0 ? 0 : scrollbarHeight - scope.boxHeight;
             }
@@ -154,15 +154,15 @@ _vsdd.directive('vsscrollbar', ['$filter', '$timeout', '$document', 'vsscrollbar
             function setScrollPos(pos) {
                 if ((pos = Math.round(pos)) !== position) {
                     position = pos;
-                    index = vsscrollbarService.calcIndex(position, maxIdx, maxPos);
+                    index = vsddsbService.calcIndex(position, maxIdx, maxPos);
                     moveScrollBox();
                 }
             }
 
             function setIndex(idx, verifyChange) {
-                if ((idx = vsscrollbarService.validateIndex(idx, maxIdx)) !== index || !verifyChange) {
+                if ((idx = vsddsbService.validateIndex(idx, maxIdx)) !== index || !verifyChange) {
                     index = idx;
-                    position = vsscrollbarService.calcScrollPos(index, maxIdx, maxPos);
+                    position = vsddsbService.calcScrollPos(index, maxIdx, maxPos);
                     moveScrollBox();
                 }
             }

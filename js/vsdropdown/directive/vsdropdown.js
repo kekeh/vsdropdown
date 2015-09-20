@@ -3,7 +3,7 @@
  * @name vsdropdown
  * @description vsdropdown is main directive of the component.
  */
-_vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeout, vsscrollbarEvent) {
+_vsdd.directive('vsdropdown', ['$timeout', 'vsddsbEvent', function ($timeout, vsddsbEvent) {
     return {
         restrict: 'EA',
         templateUrl: 'templates/vsdropdown/vsdropdown.html',
@@ -120,7 +120,7 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
                     }
                     else if (event.which === 38) {
                         if (scope.focusIdx === 0) {
-                            vsscrollbarEvent.setIndex(scope, scope.topIndex - scope.options.visibleItemCount);
+                            vsddsbEvent.setIndex(scope, scope.topIndex - scope.options.visibleItemCount);
                             scope.focusIdx = scope.filteredItemCount < scope.options.visibleItemCount ? scope.filteredItemCount - 1 : scope.options.visibleItemCount - 1;
                         }
                         else {
@@ -129,7 +129,7 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
                     }
                     else if (event.which === 40) {
                         if (isFocusBottom()) {
-                            vsscrollbarEvent.setIndex(scope, scope.topIndex + scope.options.visibleItemCount);
+                            vsddsbEvent.setIndex(scope, scope.topIndex + scope.options.visibleItemCount);
                             scope.focusIdx = 0;
                         }
                         else {
@@ -168,10 +168,10 @@ _vsdd.directive('vsdropdown', ['$timeout', 'vsscrollbarEvent', function ($timeou
             function filter() {
                 if (scope.options.input.isObject) {
                     var fltObj = {};
-                    vsscrollbarEvent.filter(scope, createFilterObj(fltObj));
+                    vsddsbEvent.filter(scope, createFilterObj(fltObj));
                 }
                 else {
-                    vsscrollbarEvent.filter(scope, scope.filterText);
+                    vsddsbEvent.filter(scope, scope.filterText);
                 }
             }
 

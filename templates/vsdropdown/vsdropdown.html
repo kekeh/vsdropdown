@@ -26,7 +26,7 @@
                 </td>
             </tr>
         </table>
-        <div class="vsscrollbar" vsscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}" ng-keydown="keyDown($event)" ng-focus="focus()" ng-blur="blur()" list-focus height="{{options.visibleItemCount*config.ITEM_HEIGHT+1}}" on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)" on-focus-scrollbox-fn="onFocusScrollbox(focused)" tabindex="0">
+        <div class="vsscrollbar" vsddscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}" ng-keydown="keyDown($event)" ng-focus="focus()" ng-blur="blur()" list-focus height="{{options.visibleItemCount*config.ITEM_HEIGHT+1}}" on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)" on-focus-scrollbox-fn="onFocusScrollbox(focused)" tabindex="0">
             <div class="vsitem" ng-repeat="item in visibleItems track by $index" ng-click="itemClicked($index, $event)" ng-class="{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}">
                 <div class="vsiteminclude" ng-include="'templates/vsdropdown/vsdditemcontent.html'" ng-init="id=2"></div>
             </div>

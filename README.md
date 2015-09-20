@@ -37,8 +37,8 @@ AngularJS directive which implements the virtual scroll dropdown.
 
 * include the **vsdropdown-0.1.0.min.js** and the **vsdropdown-0.1.0.min.css** files into your project. See the **Build project** and the **Installation** chapters below.
 ```html
-<script src="vsscrollbar-0.1.0.min.js"></script>
-<link href="vsscrollbar-0.1.0.min.css" rel="stylesheet" type="text/css">
+<script src="vsdropdown-0.1.0.min.js"></script>
+<link href="vsdropdown-0.1.0.min.css" rel="stylesheet" type="text/css">
 ```
 * inject the **vsdropdown** module into your application module.
 ```js
