@@ -1,9 +1,9 @@
 <div class="vsdropdown" ng-click="$event.stopPropagation()" ng-style="{'border-radius':showSelector?'2px 2px 0 0':'2px'}">
     <div class="vsselectiongroup">
-        <div ng-if="options.selection.maximum>1" ng-include="'templates/vsddoverlay.html'"></div>
+        <div ng-if="options.selection.maximum>1" ng-include="'templates/vsdropdown/vsddoverlay.html'"></div>
         <div class="vsselection" ng-style="{'padding-right': selectedItems.length>1?'60px':'30px'}" ng-click="selector()">
             <div class="vsselecteditem vsselecteditemcolor" ng-show="$index===0" ng-click="$event.stopPropagation()" ng-repeat="item in selectedItems track by $index">
-                <div class="vsiteminclude" ng-include="'templates/vsdditemcontent.html'" ng-init="id=1"></div>
+                <div class="vsiteminclude" ng-include="'templates/vsdropdown/vsdditemcontent.html'" ng-init="id=1"></div>
             </div>
         </div>
         <span class="vsselbtngroup">
@@ -28,7 +28,7 @@
         </table>
         <div class="vsscrollbar" vsscrollbar items="options.items" items-in-page="{{options.visibleItemCount}}" ng-keydown="keyDown($event)" ng-focus="focus()" ng-blur="blur()" list-focus height="{{options.visibleItemCount*config.ITEM_HEIGHT+1}}" on-scroll-change-fn="onScrollChange(topIndex, maxIndex, topPos, maxPos, filteredPageCount, filteredItemCount, visibleItems)" on-focus-scrollbox-fn="onFocusScrollbox(focused)" tabindex="0">
             <div class="vsitem" ng-repeat="item in visibleItems track by $index" ng-click="itemClicked($index, $event)" ng-class="{'vsselecteditemcolor':isItemSelected(item),'vsfocuseditemcolor':focusIdx===$index}">
-                <div class="vsiteminclude" ng-include="'templates/vsdditemcontent.html'" ng-init="id=2"></div>
+                <div class="vsiteminclude" ng-include="'templates/vsdropdown/vsdditemcontent.html'" ng-init="id=2"></div>
             </div>
         </div>
     </div>

@@ -29,7 +29,20 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 files: {
-                    'build/<%= pkg.name %>.min.js': ['js/<%= pkg.name %>.js']
+                    'build/<%= pkg.name %>.min.js': [
+                        'build/vsddmodule.js',
+                        'js/vsdropdown/config/vsddconfig.js',
+                        'js/vsdropdown/service/vsddservice.js',
+                        'js/vsdropdown/directive/<%= pkg.name %>.js',
+                        'js/vsdropdown/directive/vsddlistfocus.js',
+                        'js/vsdropdown/directive/vsddtooltip.js',
+                        'js/vsdropdown/directive/vsddpopover.js',
+                        'js/vsdropdown/directive/vsddopacity.js',
+                        'js/vsscrollbar/config/vssbconfig.js',
+                        'js/vsscrollbar/service/vssbevent.js',
+                        'js/vsscrollbar/service/vssbservice.js',
+                        'js/vsscrollbar/directive/vsscrollbar.js'
+                    ]
                 }
             }
         },
@@ -53,6 +66,11 @@ module.exports = function (grunt) {
                     return src;
                 }
             },
+            css: {
+                files: {
+                    'build/<%= pkg.name %>.css': ['css/<%= pkg.name %>.css', 'css/vsscrollbar.css']
+                }
+            },
             dist_min: {
                 files: {
                     'dist/min/<%= pkg.name %>-<%= pkg.version %>.min.js': ['build/**/*.html.js', 'build/**/*.min.js']
@@ -60,7 +78,21 @@ module.exports = function (grunt) {
             },
             dist_debug: {
                 files: {
-                    'dist/debug/<%= pkg.name %>-<%= pkg.version %>.js': ['build/**/*.html.js', 'js/**/*.js']
+                    'dist/debug/<%= pkg.name %>-<%= pkg.version %>.js': [
+                        'build/**/*.html.js',
+                        'build/vsddmodule.js',
+                        'js/vsdropdown/config/vsddconfig.js',
+                        'js/vsdropdown/service/vsddservice.js',
+                        'js/vsdropdown/directive/<%= pkg.name %>.js',
+                        'js/vsdropdown/directive/vsddlistfocus.js',
+                        'js/vsdropdown/directive/vsddtooltip.js',
+                        'js/vsdropdown/directive/vsddpopover.js',
+                        'js/vsdropdown/directive/vsddopacity.js',
+                        'js/vsscrollbar/config/vssbconfig.js',
+                        'js/vsscrollbar/service/vssbevent.js',
+                        'js/vsscrollbar/service/vssbservice.js',
+                        'js/vsscrollbar/directive/vsscrollbar.js'
+                    ]
                 }
             }
         },
@@ -69,7 +101,7 @@ module.exports = function (grunt) {
             target: {
                 files: [{
                     expand: true,
-                    cwd: 'css',
+                    cwd: 'build',
                     src: '*.css',
                     dest: 'build',
                     ext: '.min.css'
@@ -78,6 +110,18 @@ module.exports = function (grunt) {
         },
 
         copy: {
+            module: {
+                files: [{
+                    src: 'js/vsdropdown/module/vsddmodule.js',
+                    dest: 'build/vsddmodule.js'
+                }],
+                options: {
+                    process: function (src, filepath) {
+                        var newStr = 'template-' + grunt.config.get('pkg.name') + '-' + grunt.config.get('pkg.version') + '.html';
+                        return src.replace('[]', '["' + newStr + '"]');
+                    }
+                }
+            },
             dest_min: {
                 files: [{
                     src: 'build/<%= pkg.name %>.min.css',
@@ -86,7 +130,7 @@ module.exports = function (grunt) {
             },
             dest_debug: {
                 files: [{
-                    src: 'css/<%= pkg.name %>.css',
+                    src: 'build/<%= pkg.name %>.css',
                     dest: 'dist/debug/<%= pkg.name %>-<%= pkg.version %>.css'
                 }]
             }
@@ -122,6 +166,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('default', ['clean:all', 'html2js', 'uglify', 'concat', 'cssmin', 'copy', 'clean:build']);
-    grunt.registerTask('test', ['clean:all', 'html2js', 'uglify', 'concat', 'cssmin', 'copy', 'karma', 'clean:build']);
+    grunt.registerTask('default', ['clean:all', 'html2js', 'copy:module', 'uglify', 'concat', 'cssmin',  'copy:dest_debug', 'copy:dest_min', 'clean:build']);
+    grunt.registerTask('test', ['clean:all', 'html2js', 'uglify', 'concat', 'cssmin',  'copy:dest_debug', 'copy:dest_min', 'karma', 'clean:build']);
 };
