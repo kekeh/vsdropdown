@@ -2,7 +2,7 @@
   "author": "kekeh",
   "description": "Virtual scroll dropdown - AngularJS reusable UI component",
   "name": "vsdropdown",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "homepage": "http://kekeh.github.io/vsdropdown",
   "dependencies": {

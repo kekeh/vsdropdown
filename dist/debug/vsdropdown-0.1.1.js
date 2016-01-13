@@ -1,13 +1,13 @@
 /* 
 *  Name: vsdropdown 
 *  Description: Virtual scroll dropdown - AngularJS reusable UI component 
-*  Version: 0.1.0 
+*  Version: 0.1.1 
 *  Author: kekeh 
 *  Homepage: http://kekeh.github.io/vsdropdown 
 *  License: MIT 
-*  Date: 2015-09-20 
+*  Date: 2016-01-13 
 */ 
-angular.module('template-vsdropdown-0.1.0.html', []).run(['$templateCache', function($templateCache) {
+angular.module('template-vsdropdown-0.1.1.html', []).run(['$templateCache', function($templateCache) {
   $templateCache.put("templates/vsdropdown/vsdditemcontent.html",
     "<table class=vsitemcontent><tr><td style=width:18px ng-if=options.input.isObject&&options.input.properties.enabled><span class=\"icon vsiconproperties\" popover-window ng-click=showProperties($event) ng-keydown=\"$event.which===13?showProperties($event):null\" ng-class=\"popover!==null?'icon-down':'icon-right'\" tabindex=0></span></td><td class=vsitemtext tooltip-window>{{getPropertyValue(visiblePropName, item)}}</td><td ng-if=\"id===1\" style=width:16px><span class=\"icon vsiconcross icon-cross\" tabindex=0 ng-click=\"removeItem($index, $event)\" ng-keydown=\"$event.which===13?removeItem($index, $event):null\"></span></td><td class=vsiconcheck ng-if=\"id===2\" ng-show=isItemSelected(item) style=width:22px><span class=\"icon icon-check\"></span></td></tr></table>");
   $templateCache.put("templates/vsdropdown/vsddoverlay.html",
@@ -27,7 +27,7 @@ angular.module('template-vsdropdown-0.1.0.html', []).run(['$templateCache', func
  * @name vsdropdown
  * @description vsdropdown is module of the vsdropdown
  */
-var _vsdd = angular.module('vsdropdown', ["template-vsdropdown-0.1.0.html"]);
+var _vsdd = angular.module('vsdropdown', ["template-vsdropdown-0.1.1.html"]);
 
 /**
  * @ngdoc object
@@ -645,6 +645,7 @@ _vsdd.directive('vsddscrollbar', ['$filter', '$timeout', '$document', 'vsddsbSer
             scrollbar.on('mousewheel DOMMouseScroll', onScrollMouseWheel);
 
             function onScrollMouseWheel(event) {
+                var event = window.event || event;
                 event.preventDefault();
                 var isDown = (event.wheelDelta || -event.detail) <= 0;
                 indexChange(isDown ? itemsInPage : -itemsInPage);

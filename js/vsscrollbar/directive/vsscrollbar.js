@@ -86,6 +86,7 @@ _vsdd.directive('vsddscrollbar', ['$filter', '$timeout', '$document', 'vsddsbSer
             scrollbar.on('mousewheel DOMMouseScroll', onScrollMouseWheel);
 
             function onScrollMouseWheel(event) {
+                var event = window.event || event;
                 event.preventDefault();
                 var isDown = (event.wheelDelta || -event.detail) <= 0;
                 indexChange(isDown ? itemsInPage : -itemsInPage);
